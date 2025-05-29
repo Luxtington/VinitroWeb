@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Все пользователи</title>
+</head>
+<body>
+    <div>
+        <a th:href="/vinitro/index">На главную</a>
+    </div>
+    <div class="user-list">
+        <div th:each="user : ${all_users}" class="user">
+            <a th:href="@{/vinitro/users/{id} (id = ${user.getId()})}">
+                <div th:text="${user.getSurname()} + ' ' + ${user.getName()} + ' ' + ${user.getPatronymic()}"></div>
+            </a>
+            <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" class="btn-pair">
+                <a th:href="@{/vinitro/users/edit/{id} (id = ${user.getId()})}">
+                    <img src="/images/edit_icon.png" alt="edit">
+                </a>
+                <form th:method="DELETE" th:action="@{/vinitro/users/delete/{id} (id = ${user.getId()})}">
+                    <input type="submit" class="delete-btn" value="">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:text="'Всего зарегистрировано пользователей: ' + ${users_quantity}"></div>
+    <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
+        <a href="/vinitro/users/create"><img src="/images/plus_icon.png" alt="plus"></a>
+    </div>
+</body>
+</html>

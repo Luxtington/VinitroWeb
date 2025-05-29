@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Анализы</title>
+</head>
+<body>
+    <div>
+        <a href="/vinitro/index">На главную</a>
+    </div>
+    <div class="user-list">
+        <div th:each="analysis : ${all_analyses}" class="user">
+            <a th:href="@{/vinitro/analyses/{id} (id = ${analysis.getId()})}">
+                <div th:text="${analysis.getName()}"></div>
+            </a>
+            <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" class="btn-pair">
+                <a th:href="@{/vinitro/analyses/edit/{id} (id = ${analysis.getId()})}">
+                    <img src="/images/edit_icon.png" alt="edit">
+                </a>
+                <form th:method="DELETE" th:action="@{/vinitro/analyses/delete/{id} (id = ${analysis.getId()})}">
+                    <input type="submit" class="delete-btn" value="">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:text="'Всего анализов: ' + ${analyses_quantity}"></div>
+    <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
+        <a href="/vinitro/analyses/create"><img src="/images/plus_icon.png" alt="plus"></a>
+    </div>
+</body>
+</html>

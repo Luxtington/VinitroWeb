@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Анализ ' + ${analysis.getName()}"></title>
+</head>
+<body>
+    <div class="reader-details">
+        <div class="detail-row">
+            <div class="detail-label">Название анализа:</div>
+            <div class="detail-value" th:text="${analysis.getName()}"></div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Продолжительность взятия анализа:</div>
+            <div class="detail-value" th:text="${analysis.getAnalysisDuration()}"></div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Поля анализа:</div>
+            <div class="detail-value">
+                <ul th:if="${not #lists.isEmpty(analysis.getFields())}">
+                    <li th:each="field : ${analysis.getFields()}" th:text="${field.name}"></li>
+                </ul>
+                <div th:if="${#lists.isEmpty(analysis.getFields())}">Нет полей для отображения</div>
+            </div>
+        </div>
+        <!--в модель класть булеан типа записан чел на анализ или нет, в условии добавить И !-->
+        <div th:if="${#authorization.expression('hasAuthority(''ROLE_USER'')')}">
+            <a href="/vinitro/"></a>
+        </div>
+        <div th:if="${analysis_status.isField()}">Можно записаться</div>
+        <div th:unless="${analysis_status.isField()}">Нельзя записаться</div>
+    </div>
+    <a href="/vinitro/analyses" class="back-link">← Вернуться к списку анализов</a>
+</body>
+</html>

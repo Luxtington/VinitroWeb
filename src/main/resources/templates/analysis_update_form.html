@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать анализ</title>
+    <style>
+        .field-group {
+            margin: 15px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .remove-field-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .add-field-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+<h1>Редактирование анализа</h1>
+
+<form th:method="PATCH" th:action="@{/vinitro/analyses/edit/{id}(id=${analysis_to_edit.getId()})}" th:object="${analysis_to_edit}" id="analysis-form">
+    <div>
+        <label for="name">Название анализа:</label>
+        <input type="text" id="name" th:field="*{name}" required>
+    </div>
+
+    <div>
+        <label for="duration">Продолжительность анализа:</label>
+        <input type="number" id="duration" th:field="*{analysisDuration}" required>
+    </div>
+
+    <h3>Характеристики анализа:</h3>
+    <div id="fields-container">
+        <!-- Существующие поля -->
+        <div th:each="field, stat : *{fields}" class="field-group">
+            <div>
+                <label>Название характеристики:</label>
+                <input type="text" th:field="*{fields[__${stat.index}__].name}" required>
+            </div>
+            <div>
+                <label>Тип данных:</label>
+                <select th:field="*{fields[__${stat.index}__].type}" required>
+                    <option value="TEXT">Текст</option>
+                    <option value="NUMBER">Число</option>
+                    <option value="BOOLEAN">Да/Нет</option>
+                </select>
+            </div>
+            <button type="button" class="remove-field-btn" onclick="this.closest('.field-group').remove()">
+                Удалить
+            </button>
+        </div>
+    </div>
+
+    <!-- Кнопка добавления новой характеристики -->
+    <button type="button" id="add-field-btn" class="add-field-btn">+ Добавить характеристику</button>
+
+    <!-- Шаблон для новых полей -->
+    <template id="field-template">
+        <div class="field-group">
+            <div>
+                <label>Название характеристики:</label>
+                <input type="text" name="field-name" class="field-name" required>
+            </div>
+            <div>
+                <label>Тип данных:</label>
+                <select name="field-type" class="field-type" required>
+                    <option value="TEXT">Текст</option>
+                    <option value="NUMBER">Число</option>
+                    <option value="BOOLEAN">Да/Нет</option>
+                </select>
+            </div>
+            <button type="button" class="remove-field-btn">Удалить</button>
+        </div>
+    </template>
+
+    <div>
+        <button type="submit">Сохранить изменения</button>
+        <a th:href="@{/vinitro/analyses/{id}(id=${analysis_to_edit.id})}">Отмена</a>
+    </div>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('analysis-form');
+        const container = document.getElementById('fields-container');
+        const template = document.getElementById('field-template').content;
+
+        // Добавление новой характеристики
+        document.getElementById('add-field-btn').addEventListener('click', function() {
+            const newField = document.importNode(template, true);
+            container.appendChild(newField);
+        });
+
+        // Удаление характеристики
+        container.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-field-btn')) {
+                e.target.closest('.field-group').remove();
+            }
+        });
+
+        // Обработка отправки формы
+        form.addEventListener('submit', function(e) {
+            const fields = container.querySelectorAll('.field-group');
+            let allValid = true;
+
+            fields.forEach((field, index) => {
+                const nameInput = field.querySelector('.field-name');
+                const typeSelect = field.querySelector('.field-type');
+
+                if (nameInput && typeSelect) {
+                    // Проверка заполнения
+                    if (!nameInput.value.trim()) {
+                        nameInput.style.border = '1px solid red';
+                        allValid = false;
+                    } else {
+                        nameInput.style.border = '';
+                    }
+
+                    // Создаем скрытые поля для Spring
+                    const hiddenName = document.createElement('input');
+                    hiddenName.type = 'hidden';
+                    hiddenName.name = `fields[${index}].name`;
+                    hiddenName.value = nameInput.value;
+                    form.appendChild(hiddenName);
+
+                    const hiddenType = document.createElement('input');
+                    hiddenType.type = 'hidden';
+                    hiddenType.name = `fields[${index}].type`;
+                    hiddenType.value = typeSelect.value;
+                    form.appendChild(hiddenType);
+                }
+            });
+
+            if (!allValid) {
+                e.preventDefault();
+                alert('Заполните все названия характеристик');
+            }
+        });
+    });
+</script>
+</body>
+</html>

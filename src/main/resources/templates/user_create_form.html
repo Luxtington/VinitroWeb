@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Создать пользователя</title>
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            flex: 1;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .error-message, .error {
+            color: red;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #333;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .password-container {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Добавить нового пользователя</h1>
+<div class="form-container">
+    <form method="POST" action="/vinitro/users/create" th:object="${user_to_create}">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inputSurname">Фамилия *</label>
+                <input type="text" th:field="*{surname}" id="inputSurname" placeholder="Иванов">
+                <div class="error-message" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName">Имя *</label>
+                <input type="text" th:field="*{name}" id="inputName" placeholder="Иван">
+                <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputPatronymic">Отчество</label>
+            <input type="text" th:field="*{patronymic}" id="inputPatronymic" placeholder="Иванович">
+            <div class="error-message" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}"></div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inputAge">Год рождения *</label>
+                <input type="text" th:field="*{birthdayYear}" id="inputAge" placeholder="1990">
+                <div class="error-message" th:if="${#fields.hasErrors('birthdayYear')}" th:errors="*{birthdayYear}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail">Электронная почта</label>
+                <input type="text" th:field="*{email}" id="inputEmail" placeholder="example@mail.com">
+                <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="username">Логин:</label>
+                <input type="text" id="username" th:field="*{username}" required>
+                <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Пароль:</label>
+                <div class="password-container">
+                    <input type="password" id="password" th:field="*{password}" required>
+                    <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+                </div>
+                <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Добавить пользователя</button>
+    </form>
+</div>
+
+<a href="/vinitro/users" class="back-link">← Вернуться к списку пользователей</a>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+        } else {
+            passwordInput.type = 'password';
+        }
+    }
+</script>
+</body>
+</html>

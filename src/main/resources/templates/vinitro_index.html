@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vinitro</title>
+</head>
+<body>
+    <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_NURSE'') or hasAuthority(''ROLE_USER'')')}" href="/vinitro/analyses"><img src = "/images/analyses.png" alt="analyses"></a>
+    <a href="#"><img src = "/images/analyses_completing.png" alt="analyses_completing"></a>
+    <a href="#"><img src = "/images/analyses_approving.png" alt="analyses_approving"></a>
+    <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_NURSE'')')}" href="/vinitro/users"><img src = "/images/all_users.png" alt="all_users"></a>
+
+</body>
+</html>

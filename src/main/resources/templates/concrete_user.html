@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Пользователь ' + ${user.getSurname()}"></title>
+</head>
+<body>
+    <div class="reader-details">
+        <div class="detail-row">
+            <div class="detail-label">Фамилия:</div>
+            <div class="detail-value" th:text="${user.getSurname()}"></div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Имя:</div>
+            <div class="detail-value" th:text="${user.getName()}"></div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Отчество:</div>
+            <div class="detail-value" th:text="${user.getPatronymic()} ?: 'Не указано'"></div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Возраст:</div>
+            <div class="detail-value">
+                <span th:text="${currYear - user.getBirthdayYear()}"></span>
+                <span> лет</span>
+            </div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Электронная почта:</div>
+            <div class="detail-value" th:text="${user.getEmail()} ?: 'Не указана'"></div>
+        </div>
+
+
+    </div>
+    <a href="/vinitro/users" class="back-link">← Вернуться к списку пользователей</a>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vinitro регистрация</title>
+</head>
+<body>
+<div class="container">
+    <h1>Регистрация</h1>
+    <form  th:method="POST" th:action="@{/vinitro/auth/register}" th:object="${user}">
+        <div class="form-group">
+            <label for="surname">Фамилия:</label>
+            <input type="text" id="surname" th:field="*{surname}" required>
+            <span class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+        </div>
+        <div class="form-group">
+            <label for="name">Имя:</label>
+            <input type="text" id="name" th:field="*{name}" required>
+            <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+        <div class="form-group">
+            <label for="patronymic">Отчество:</label>
+            <input type="text" id="patronymic" th:field="*{patronymic}">
+            <span class="error" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}"></span>
+        </div>
+        <div class="form-group">
+            <label for="birthdayYear">Год рождения:</label>
+            <input type="number" id="birthdayYear" th:field="*{birthdayYear}" required>
+            <span class="error" th:if="${#fields.hasErrors('birthdayYear')}" th:errors="*{birthdayYear}"></span>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" th:field="*{email}">
+            <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </div>
+        <div class="form-group">
+            <label for="username">Логин:</label>
+            <input type="text" id="username" th:field="*{username}" required>
+            <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" th:field="*{password}" required>
+            <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        </div>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <p>Уже есть аккаунт? <a href="@{/vinitro/auth/login}">Войти</a></p>
+</div>
+</body>
+</html>
