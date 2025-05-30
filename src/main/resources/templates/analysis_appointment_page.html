@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Запись на анализ</title>
+</head>
+<body>
+    <h1>Запись на анализ</h1>
+    <div>Выберите удобные дату и время для сдачи анализа</div>
+    <h1 th:text="${analysis.getName()}"></h1>
+    <div th:text="'Продолжительность: ' + ${analysis.getAnalysisDuration()} + ' минут'"></div>
+    <form th:method="POST" th:action="@{/vinitro/analyses/{id}/appoint (id=${analysis.getId()})}" th:object="${new_appointment}">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="date">Выберите дату:</label>
+                <input type="date" id="date" th:field="*{date}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="time">Выберите время:</label>
+                <input type="time" id="time" th:field="*{time}" required>
+            </div>
+        </div>
+        <input type="submit" value="Записаться">
+    </form>
+</body>
+</html>

@@ -53,7 +53,7 @@ public class AnalysisService {
         User user = userRepository.findById(userId).orElse(null);
         if (user != null){
             AppointmentForAnalysis appointment = user.isAppointedForAnalysis(analysis.getId()).orElse(null);
-            System.out.println("APPOINTMENT = " + appointment);
+            System.out.println(" (anal. service) APPOINTMENT = " + appointment);
             if (appointment == null){
                 // такого id анализа даже нет в списке, значит дата не важна
                 System.out.println("U CAN APPOINT FOR ANALYSIS!!!");

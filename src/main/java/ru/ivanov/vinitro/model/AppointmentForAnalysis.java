@@ -1,5 +1,6 @@
 package ru.ivanov.vinitro.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ru.ivanov.vinitro.util.AnalysisStatus;
@@ -11,6 +12,8 @@ import java.util.List;
 
 @Document(collection = "appointment")
 public class AppointmentForAnalysis {
+    @Id
+    private String id;
     @DBRef
     private Analysis analysis;
     @DBRef
@@ -78,10 +81,13 @@ public class AppointmentForAnalysis {
     @Override
     public String toString() {
         return "AppointmentForAnalysis{" +
-                "analysis=" + analysis +
+                "id='" + id + '\'' +
+                ", analysis=" + analysis +
                 ", patient=" + patient +
+                ", analysisStatus=" + analysisStatus +
                 ", date=" + date +
                 ", time=" + time +
+                ", results=" + results +
                 '}';
     }
 }

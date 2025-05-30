@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.ivanov.vinitro.dto.VinitroUserDetails;
 import ru.ivanov.vinitro.model.Analysis;
 import ru.ivanov.vinitro.model.BooleanKeeper;
+import ru.ivanov.vinitro.repository.AnalysisRepository;
 import ru.ivanov.vinitro.service.AnalysisService;
 import ru.ivanov.vinitro.util.AnalysisValidator;
 
@@ -80,8 +81,5 @@ public class AnalysisController {
         return "redirect:/vinitro/analyses";
     }
 
-//    @GetMapping("/{id}/appoint")
-//    public String showAppointmentPage(@PathVariable("id") int id){
-//
-//    }
+    //в пост запросе отправим айди анализа на контроллер юзера
 }

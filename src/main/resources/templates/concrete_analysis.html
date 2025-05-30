@@ -25,12 +25,12 @@
                 <div th:if="${#lists.isEmpty(analysis.getFields())}">Нет полей для отображения</div>
             </div>
         </div>
-        <!--в модель класть булеан типа записан чел на анализ или нет, в условии добавить И !-->
-        <div th:if="${#authorization.expression('hasAuthority(''ROLE_USER'')')}">
-            <a href="/vinitro/"></a>
+        <div th:if="${analysis_status.isField()} and ${#authorization.expression('hasAuthority(''ROLE_USER'')')}">
+            <a th:href="@{/vinitro/analyses/{id}/appoint (id = ${analysis.getId()})}">
+                <button style="color: #3B82F6">Записаться</button>
+            </a>
         </div>
-        <div th:if="${analysis_status.isField()}">Можно записаться</div>
-        <div th:unless="${analysis_status.isField()}">Нельзя записаться</div>
+        <div th:unless="${analysis_status.isField()}">Вы уже записаны на этот анализ</div>
     </div>
     <a href="/vinitro/analyses" class="back-link">← Вернуться к списку анализов</a>
 </body>
