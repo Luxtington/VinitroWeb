@@ -139,40 +139,20 @@ public class User {
         return allAnalyses;
     }
 
-//    public List<Analysis> getReadyAnalyses() {
-//        return readyAnalyses;
-//    }
-//
-//    public List<Analysis> getProcessingAnalyses() {
-//        return processingAnalyses;
-//    }
-
     public void addAnalysisToAnalysisList(@NotNull AppointmentForAnalysis appointmentForAnalysis){
         allAnalyses.add(appointmentForAnalysis);
         System.out.println("analysis was added to analyses list");
     }
 
-//    public void addAnalysisToProcessingAnalysesList(@NotNull Analysis analysis){
-//        processingAnalyses.add(analysis);
-//        System.out.println("analysis was added to processing analyses list");
-//    }
-//
-//    public void addAnalysisToReadyAnalysesList(@NotNull Analysis analysis){
-//        readyAnalyses.add(analysis);
-//        System.out.println("analysis was added to processing analyses list");
-//    }
-
-
-    // мы проверяем что айди анализа, который он чекает равно айди из списка всех
-    // но это плохо, ведь тут могут быть и уже сделанные аналазы
-    // тогда будет получаться что записаться уже не сможем на повторный
-    // добавить проверку на дату: получать текущую и смотреть с датой анализа
-    // если одинаковы, значит ретурн фолз
-    // будет 2 условия: такой айди есть и дата норм => передавать сюда еще и дату
-    public Optional<AppointmentForAnalysis> isAppointedForAnalysis(String analysisId){
-        return allAnalyses.stream()
+    // будет 2 условия: такой айди есть и статус норм (сделано - можно делать еще раз)
+    public boolean isAppointedForAnalysis(String analysisId){
+        Optional<AppointmentForAnalysis> appointment = allAnalyses.stream()
                       .filter(appointmentForAnalysis -> Objects.equals(appointmentForAnalysis.getAnalysis().getId(), analysisId))
                       .findFirst();
+        if (!appointment.isPresent()){
+            return false;
+        }
+        return !appointment.orElse(null).isAnalysisCompleted();
     }
 
     @Override

@@ -36,9 +36,10 @@ public class AppointmentController {
     @PostMapping("/{analysis_id}/appoint")
     public String appointForAnalysis(@PathVariable("analysis_id") String id,
                                      @ModelAttribute("new_appointment") AppointmentForAnalysis appointment,
-                                     Authentication authentication){
-
-        appointmentService.recreateAppointment(id, ((VinitroUserDetails)authentication.getPrincipal()).getId() , appointment.getDate(), appointment.getTime());
-        return "vinitro_index";
+                                     Authentication authentication,
+                                     Model model){
+        model.addAttribute("analysis", analysisService.findById(id).orElse(null));
+        appointmentService.appointUserToAnalysis(id, ((VinitroUserDetails)authentication.getPrincipal()).getId() , appointment.getDate(), appointment.getTime());
+        return "concrete_analysis";
     }
 }

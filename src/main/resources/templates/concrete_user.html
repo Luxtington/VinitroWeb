@@ -34,12 +34,26 @@
             <div class="detail-value" th:text="${user.getEmail()} ?: 'Не указана'"></div>
         </div>
 
-        <div><h2>Запланированные анализы:</h2></div>
-        <div><h2>Анализы в обработке:</h2></div>
-        <div><h2>Готовые анализы:</h2></div>
-
-
+        <div>
+            <h2>Запланированные анализы:</h2>
+            <div th:each="appointment: ${user.getAllAnalyses()}">
+                <p th:if="${appointment.isAnalysisInWaitingState()}" th:text="${appointment.getAnalysis().getName()}"></p>
+            </div>
+        </div>
+        <div>
+            <h2>Анализы в обработке:</h2>
+            <div th:each="appointment: ${user.getAllAnalyses()}">
+                <p th:if="${appointment.isAnalysisInProcessing()}" th:text="${appointment.getAnalysis().getName()}"></p>
+            </div>
+        </div>
+        <div>
+            <h2>Готовые анализы:</h2>
+            <div th:each="appointment: ${user.getAllAnalyses()}">
+                <p th:if="${appointment.isAnalysisCompleted()}" th:text="${appointment.getAnalysis().getName()}"></p>
+            </div>
+        </div>
     </div>
-    <a href="/vinitro/users" class="back-link">← Вернуться к списку пользователей</a>
+    <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" href="/vinitro/users" class="back-link">← Вернуться к списку пользователей</a>
+    <a th:unless="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" href="/vinitro/index" class="back-link">← Вернуться на главную страницу</a>
 </body>
 </html>

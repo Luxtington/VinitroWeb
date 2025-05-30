@@ -15,7 +15,7 @@
             </a>
             <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" class="btn-pair">
                 <a th:href="@{/vinitro/users/edit/{id} (id = ${user.getId()})}">
-                    <img src="/images/edit_icon.png" alt="edit">
+                    <img src="/images/settings_icon.png" alt="edit">
                 </a>
                 <form th:method="DELETE" th:action="@{/vinitro/users/delete/{id} (id = ${user.getId()})}">
                     <input type="submit" class="delete-btn" value="">

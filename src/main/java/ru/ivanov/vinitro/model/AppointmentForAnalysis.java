@@ -48,6 +48,7 @@ public class AppointmentForAnalysis {
 
     public void setPatient(User patient) {
         this.patient = patient;
+        patient.addAnalysisToAnalysisList(this);
     }
 
     public LocalDate getDate() {
@@ -76,6 +77,18 @@ public class AppointmentForAnalysis {
 
     public void setAnalysisStatus(AnalysisStatus analysisStatus) {
         this.analysisStatus = analysisStatus;
+    }
+
+    public boolean isAnalysisInWaitingState(){
+        return analysisStatus.equals(AnalysisStatus.IN_WAITING);
+    }
+
+    public boolean isAnalysisInProcessing(){
+        return analysisStatus.equals(AnalysisStatus.IN_PROCESSING);
+    }
+
+    public boolean isAnalysisCompleted(){
+        return analysisStatus.equals(AnalysisStatus.COMPLETED);
     }
 
     @Override

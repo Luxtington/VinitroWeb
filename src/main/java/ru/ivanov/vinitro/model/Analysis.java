@@ -17,7 +17,6 @@ public class Analysis{
     private String name;
     private int analysisDuration;
     private List<AnalysisField> fields = new ArrayList<>();
-    //private List<AnalysisResult> results = new ArrayList<>();
 
     public Analysis() {
     }
@@ -55,7 +54,6 @@ public class Analysis{
         System.out.println(fields.size());
         return fields;
     }
-
 
     @Override
     public String toString() {

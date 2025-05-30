@@ -25,12 +25,12 @@
                 <div th:if="${#lists.isEmpty(analysis.getFields())}">Нет полей для отображения</div>
             </div>
         </div>
-        <div th:if="${analysis_status.isField()} and ${#authorization.expression('hasAuthority(''ROLE_USER'')')}">
+        <div th:if="${not analysis_status.isField()} and ${#authorization.expression('hasAuthority(''ROLE_USER'')')}">
             <a th:href="@{/vinitro/analyses/{id}/appoint (id = ${analysis.getId()})}">
                 <button style="color: #3B82F6">Записаться</button>
             </a>
         </div>
-        <div th:unless="${analysis_status.isField()}">Вы уже записаны на этот анализ</div>
+        <div th:unless="${not analysis_status.isField()}">Вы уже записаны на этот анализ</div>
     </div>
     <a href="/vinitro/analyses" class="back-link">← Вернуться к списку анализов</a>
 </body>

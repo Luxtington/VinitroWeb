@@ -52,17 +52,7 @@ public class AnalysisService {
     public boolean checkUserAppointmentForAnalysis(Analysis analysis, String userId){
         User user = userRepository.findById(userId).orElse(null);
         if (user != null){
-            AppointmentForAnalysis appointment = user.isAppointedForAnalysis(analysis.getId()).orElse(null);
-            System.out.println(" (anal. service) APPOINTMENT = " + appointment);
-            if (appointment == null){
-                // такого id анализа даже нет в списке, значит дата не важна
-                System.out.println("U CAN APPOINT FOR ANALYSIS!!!");
-                return true;
-            } else {
-                // на такой id анализа есть запись - чекаем по датам (типа сегодня записаться повторно нельзя)
-                System.out.println("APPOINTMENT FAILED");
-                return LocalDate.now().getDayOfWeek().equals(appointment.getDate().getDayOfWeek());
-            }
+            return user.isAppointedForAnalysis(analysis.getId());
         }
         else{
             throw new RuntimeException("User not found");

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ivanov.vinitro.model.AppointmentForAnalysis;
+import ru.ivanov.vinitro.model.User;
 import ru.ivanov.vinitro.repository.AnalysisRepository;
 import ru.ivanov.vinitro.repository.AppointmentRepository;
 import ru.ivanov.vinitro.repository.UserRepository;
@@ -47,13 +48,17 @@ public class AppointmentService {
     }
 
     @Transactional
-    public void recreateAppointment(String analysisId, String patientId, LocalDate date, LocalTime time){
+    public void appointUserToAnalysis(String analysisId, String patientId, LocalDate date, LocalTime time){
+        User patient = userRepository.findById(patientId).orElse(null);
         AppointmentForAnalysis appointment = new AppointmentForAnalysis();
         appointment.setAnalysis(analysisRepository.findById(analysisId).orElse(null));
-        appointment.setPatient(userRepository.findById(patientId).orElse(null));
+        appointment.setPatient(patient);
         appointment.setDate(date);
         appointment.setTime(time);
         appointment.setAnalysisStatus(AnalysisStatus.IN_WAITING);
         save(appointment);
+
+        patient.setId(patientId);
+        userRepository.save(patient);
     }
 }
