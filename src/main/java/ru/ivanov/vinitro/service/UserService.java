@@ -1,5 +1,6 @@
 package ru.ivanov.vinitro.service;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,13 @@ public class UserService {
     @Transactional
     public void deleteById(String id){
         userRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void addRoleToUser(User user, Role role){
+        user.addRoleToUser(role);
+        user.setId(user.getId());
+        userRepository.save(user);
     }
 
 }

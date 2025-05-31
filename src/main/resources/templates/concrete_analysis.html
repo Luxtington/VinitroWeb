@@ -25,7 +25,7 @@
                 <div th:if="${#lists.isEmpty(analysis.getFields())}">Нет полей для отображения</div>
             </div>
         </div>
-        <div th:if="${not analysis_status.isField()} and ${#authorization.expression('hasAuthority(''ROLE_USER'')')}">
+        <div th:if="${not analysis_status.isField()} and not${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')} and not${#authorization.expression('hasAuthority(''ROLE_NURSE'')')} and not${#authorization.expression('hasAuthority(''ROLE_ASSISTANT'')')}">
             <a th:href="@{/vinitro/analyses/{id}/appoint (id = ${analysis.getId()})}">
                 <button style="color: #3B82F6">Записаться</button>
             </a>

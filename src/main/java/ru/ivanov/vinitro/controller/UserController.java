@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.ivanov.vinitro.model.Role;
 import ru.ivanov.vinitro.model.User;
 import ru.ivanov.vinitro.service.UserService;
 import ru.ivanov.vinitro.util.UserValidator;
@@ -74,5 +75,19 @@ public class UserController {
     public String deleteUser(@PathVariable("id") String id){
         userService.deleteById(id);
         return "redirect:/vinitro/users";
+    }
+
+    @PostMapping("/employ/nurse/{id}")
+    public String employNurse(@PathVariable("id") String id, Model model){
+        User user = userService.findById(id).orElse(null);
+        userService.addRoleToUser(user, new Role("ROLE_NURSE"));
+        return "redirect:/vinitro/users/" + id;
+    }
+
+    @PostMapping("/employ/assistant/{id}")
+    public String employAssistant(@PathVariable("id") String id, Model model){
+        User user = userService.findById(id).orElse(null);
+        userService.addRoleToUser(user, new Role("ROLE_ASSISTANT"));
+        return "redirect:/vinitro/users/" + id;
     }
 }

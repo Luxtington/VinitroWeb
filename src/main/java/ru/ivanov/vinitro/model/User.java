@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 @Document(collection = "user")
 public class User {
@@ -132,11 +133,34 @@ public class User {
     }
 
     public void addRoleToUser(@NotNull Role role){
+        if (!(role.getName().equals("ROLE_USER") || role.getName().equals("ROLE_NURSE") || role.getName().equals("ROLE_ASSISTANT") || role.getName().equals("ROLE_ADMIN"))){
+            throw new RuntimeException("Incorrect name of role");
+        }
         userRoles.add(role);
     }
 
     public List<AppointmentForAnalysis> getAllAnalyses() {
         return allAnalyses;
+    }
+
+    public boolean isAdmin(){
+        int res = (int)userRoles.stream().filter(role -> role.getName().equals("ROLE_ADMIN")).count();
+        return res == 1;
+    }
+
+    public boolean isNurse(){
+        int res = (int)userRoles.stream().filter(role -> role.getName().equals("ROLE_NURSE")).count();
+        return res == 1;
+    }
+
+    public boolean isAssistant(){
+        int res = (int)userRoles.stream().filter(role -> role.getName().equals("ROLE_ASSISTANT")).count();
+        return res == 1;
+    }
+
+    public boolean isUser(){
+        int res = (int)userRoles.stream().filter(role -> role.getName().equals("ROLE_USER")).count();
+        return res == 1 && userRoles.size() == 1;
     }
 
     public void addAnalysisToAnalysisList(@NotNull AppointmentForAnalysis appointmentForAnalysis){

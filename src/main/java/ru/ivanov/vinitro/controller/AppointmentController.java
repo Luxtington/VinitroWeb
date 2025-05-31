@@ -7,8 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.ivanov.vinitro.dto.VinitroUserDetails;
 import ru.ivanov.vinitro.model.AppointmentForAnalysis;
+import ru.ivanov.vinitro.model.BooleanKeeper;
+import ru.ivanov.vinitro.model.User;
 import ru.ivanov.vinitro.service.AnalysisService;
 import ru.ivanov.vinitro.service.AppointmentService;
+import ru.ivanov.vinitro.service.UserService;
 
 @Controller
 @RequestMapping("/vinitro/analyses")
@@ -16,11 +19,13 @@ public class AppointmentController {
 
     private final AnalysisService analysisService;
     private final AppointmentService appointmentService;
+    private final UserService userService;
 
     @Autowired
-    public AppointmentController(AnalysisService analysisService, AppointmentService appointmentService) {
+    public AppointmentController(AnalysisService analysisService, AppointmentService appointmentService, UserService userService) {
         this.analysisService = analysisService;
         this.appointmentService = appointmentService;
+        this.userService = userService;
     }
 
     @GetMapping("/{analysis_id}/appoint")
@@ -36,10 +41,9 @@ public class AppointmentController {
     @PostMapping("/{analysis_id}/appoint")
     public String appointForAnalysis(@PathVariable("analysis_id") String id,
                                      @ModelAttribute("new_appointment") AppointmentForAnalysis appointment,
-                                     Authentication authentication,
-                                     Model model){
-        model.addAttribute("analysis", analysisService.findById(id).orElse(null));
-        appointmentService.appointUserToAnalysis(id, ((VinitroUserDetails)authentication.getPrincipal()).getId() , appointment.getDate(), appointment.getTime());
-        return "concrete_analysis";
+                                     Authentication authentication){
+        User user = userService.findById(((VinitroUserDetails)authentication.getPrincipal()).getId()).orElse(null);
+        appointmentService.appointUserToAnalysis(id, user.getId() , appointment.getDate(), appointment.getTime());
+        return "redirect:/vinitro/analyses/" + id;
     }
 }
