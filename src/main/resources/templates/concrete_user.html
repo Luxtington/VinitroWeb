@@ -34,22 +34,30 @@
             <div class="detail-value" th:text="${user.getEmail()} ?: 'Не указана'"></div>
         </div>
 
-        <div>
-            <h2>Запланированные анализы:</h2>
-            <div th:each="appointment: ${user.getAllAnalyses()}">
-                <p th:if="${appointment.isAnalysisInWaitingState()}" th:text="${appointment.getAnalysis().getName()}"></p>
+        <div class="detail-row">
+            <div class="detail-label">Ваша роль в приложении:</div>
+            <div class="detail-value" th:each="role : ${user.getUserRoles()}">
+                <p th:text="${role.getName()}"></p>
             </div>
         </div>
-        <div>
-            <h2>Анализы в обработке:</h2>
-            <div th:each="appointment: ${user.getAllAnalyses()}">
-                <p th:if="${appointment.isAnalysisInProcessing()}" th:text="${appointment.getAnalysis().getName()}"></p>
+        <div th:if="${user.isUser()}">
+            <div>
+                <h2>Запланированные анализы:</h2>
+                <div th:each="appointment: ${user.getAllAnalyses()}">
+                    <p th:if="${appointment.isAnalysisInWaitingState()}" th:text="${appointment.getAnalysis().getName()}"></p>
+                </div>
             </div>
-        </div>
-        <div>
-            <h2>Готовые анализы:</h2>
-            <div th:each="appointment: ${user.getAllAnalyses()}">
-                <p th:if="${appointment.isAnalysisCompleted()}" th:text="${appointment.getAnalysis().getName()}"></p>
+            <div>
+                <h2>Анализы в обработке:</h2>
+                <div th:each="appointment: ${user.getAllAnalyses()}">
+                    <p th:if="${appointment.isAnalysisInProcessing()}" th:text="${appointment.getAnalysis().getName()}"></p>
+                </div>
+            </div>
+            <div>
+                <h2>Готовые анализы:</h2>
+                <div th:each="appointment: ${user.getAllAnalyses()}">
+                    <p th:if="${appointment.isAnalysisCompleted()}" th:text="${appointment.getAnalysis().getName()}"></p>
+                </div>
             </div>
         </div>
     </div>

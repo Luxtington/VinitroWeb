@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Запись на анализ</title>
+</head>
+<body>
+    <form th:method="POST" th:action="@{/vinitro/analyses/waiting/personal/confirm}" th:object="${appointment}">
+        <label for="analysis">Выберите пройденный анализ:</label>
+        <select th:object="${appointment}" th:field="*{analysis}" id="analysis">
+            <!--crutch-->
+            <option th:each="a : ${analyses}" th:value="${a.getId()}"
+                    th:text="${a.getName()}">
+            </option>
+        </select>
+        <label for="patient">Выберите пациента:</label>
+        <select th:object="${appointment}" th:field="*{patient}" id="patient">
+            <!--crutch-->
+            <option th:each="p : ${users}" th:value="${p.getId()}"
+                    th:text="${p.getSurname()} + ' ' + ${p.getName()} + ' ' + ${p.getPatronymic()}">>
+            </option>
+        </select>
+        <div class="form-group">
+            <label for="date">Выберите дату:</label>
+            <input type="date" id="date" th:field="*{date}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="time">Выберите время:</label>
+            <input type="time" id="time" th:field="*{time}" required>
+        </div>
+
+        <label for="tag">Укажите тег:</label>
+        <input type="number" th:field="*{tag}" min="100" max="999" placeholder="Тег анализа (3 цифры)" required id="tag">
+
+        <input type="submit" value="Подтвердить!">
+    </form>
+</body>
+</html>

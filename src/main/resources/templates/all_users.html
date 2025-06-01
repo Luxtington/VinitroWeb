@@ -98,12 +98,12 @@
                 <div th:if="${user.isNurse()}"><img src="/images/nurse_icon.png" alt="nurse"></div>
                 <div th:if="${user.isAssistant()}"><img src="/images/assistant_icon.png" alt="nurse"></div>
                 <div th:text="${user.getSurname()} + ' ' + ${user.getName()} + ' ' + ${user.getPatronymic()}"></div>
-                <div th:if="${!user.isNurse()}">
+                <div th:if="${!user.isNurse()} and ${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
                     <form method="POST" th:action="@{/vinitro/users/employ/nurse/{id} (id = ${user.getId()})}">
                         <input type="submit" class="employ" title="Нанять в качестве медсестры">
                     </form>
                 </div>
-                <div th:if="${!user.isAssistant()}">
+                <div th:if="${!user.isAssistant()} and ${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
                     <form method="POST" th:action="@{/vinitro/users/employ/assistant/{id} (id = ${user.getId()})}">
                         <input type="submit" class="employ" title="Нанять в качестве лаборанта">
                     </form>

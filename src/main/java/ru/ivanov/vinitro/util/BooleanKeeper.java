@@ -1,4 +1,4 @@
-package ru.ivanov.vinitro.model;
+package ru.ivanov.vinitro.util;
 
 public class BooleanKeeper {
     private final boolean field;

@@ -12,6 +12,7 @@ import ru.ivanov.vinitro.util.AnalysisStatus;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,5 +61,51 @@ public class AppointmentService {
 
         patient.setId(patientId);
         userRepository.save(patient);
+    }
+
+    public List<AppointmentForAnalysis> getAllWaitingAnalyses(){
+        List<User> allUsers = userRepository.findAll();
+        List<AppointmentForAnalysis> appointments = new ArrayList<>();
+        for (User user : allUsers){
+            if (user.isUser()){
+                for (AppointmentForAnalysis a : user.getAllAnalyses()){
+                    if (a.isAnalysisInWaitingState()){
+                        appointments.add(a);
+                    }
+                }
+            }
+        }
+        return appointments;
+    }
+
+    @Transactional
+    public void moveAppointmentStatusFromWaitingToProcessing(String id, int tag){
+        AppointmentForAnalysis appointment = appointmentRepository.findById(id).orElse(null);
+        appointment.setTag(tag);
+        appointment.setAnalysisStatus(AnalysisStatus.IN_PROCESSING);
+        if (appointment.getPatient().isAppointedForAnalysis(appointment.getAnalysis().getId())){
+            appointment.setId(id);
+        } else {
+            appointment.getPatient().addAnalysisToAnalysisList(appointment);
+        }
+        appointmentRepository.save(appointment);
+        User user = appointment.getPatient();
+        user.setId(user.getId());
+        userRepository.save(user);
+    }
+
+    public List<AppointmentForAnalysis> getAllProcessingAnalyses() {
+        List<User> allUsers = userRepository.findAll();
+        List<AppointmentForAnalysis> appointments = new ArrayList<>();
+        for (User user : allUsers){
+            if (user.isUser()){
+                for (AppointmentForAnalysis a : user.getAllAnalyses()){
+                    if (a.isAnalysisInProcessing()){
+                        appointments.add(a);
+                    }
+                }
+            }
+        }
+        return appointments;
     }
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница лаборанта</title>
+    <style>
+        .appointment{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div th:each="app : ${appointments}" class="appointment">
+        <div class="info">
+            <p th:text="${app.getTag()}"></p>
+            <p th:text="${app.getAnalysis().getName()}"></p>
+        </div>
+        <a th:href="@{/vinitro/analyses/complete/{appointmentId} (id = ${app.getId()})}">
+               <div>Заполнить</div>
+        </a>
+    </div>
+</body>
+</html>

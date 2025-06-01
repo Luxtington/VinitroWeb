@@ -137,6 +137,8 @@ public class User {
             throw new RuntimeException("Incorrect name of role");
         }
         userRoles.add(role);
+        allAnalyses = new ArrayList<>();
+        System.out.println("Все записи аннулированы");
     }
 
     public List<AppointmentForAnalysis> getAllAnalyses() {

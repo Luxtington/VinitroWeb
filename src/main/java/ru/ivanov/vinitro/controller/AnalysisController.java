@@ -9,12 +9,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.ivanov.vinitro.dto.VinitroUserDetails;
 import ru.ivanov.vinitro.model.Analysis;
-import ru.ivanov.vinitro.model.BooleanKeeper;
-import ru.ivanov.vinitro.repository.AnalysisRepository;
+import ru.ivanov.vinitro.util.BooleanKeeper;
 import ru.ivanov.vinitro.service.AnalysisService;
 import ru.ivanov.vinitro.util.AnalysisValidator;
-
-import java.security.Principal;
 
 @Controller
 @RequestMapping("/vinitro/analyses")

@@ -21,6 +21,7 @@ public class AppointmentForAnalysis {
     private AnalysisStatus analysisStatus;
     private LocalDate date;
     private LocalTime time;
+    private int tag;
     private List<AnalysisResult> results = new ArrayList<>();
 
     public AppointmentForAnalysis() {
@@ -32,6 +33,14 @@ public class AppointmentForAnalysis {
         this.analysisStatus = analysisStatus;
         this.date = date;
         this.time = time;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Analysis getAnalysis() {
@@ -77,6 +86,8 @@ public class AppointmentForAnalysis {
 
     public void setAnalysisStatus(AnalysisStatus analysisStatus) {
         this.analysisStatus = analysisStatus;
+        System.out.println("athis nal = " + this.analysisStatus);
+        System.out.println("anal = " + analysisStatus);
     }
 
     public boolean isAnalysisInWaitingState(){
@@ -89,6 +100,14 @@ public class AppointmentForAnalysis {
 
     public boolean isAnalysisCompleted(){
         return analysisStatus.equals(AnalysisStatus.COMPLETED);
+    }
+
+    public int getTag() {
+        return tag;
+    }
+
+    public void setTag(int tag) {
+        this.tag = tag;
     }
 
     @Override

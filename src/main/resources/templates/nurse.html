@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница медсестры</title>
+    <style>
+        .appointment{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <a href="/vinitro/analyses/waiting/personal">Подтвердить приём вручную</a>
+    </div>
+    <div th:each="app : ${appointments}" class="appointment">
+        <div class="info">
+            <p th:text="${app.getAnalysis().getName()}"></p>
+            <p th:text="${app.getPatient().getSurname() + ' ' + app.getPatient().getName() + ' ' + app.getPatient().getPatronymic()}"></p>
+        </div>
+        <div class="little-appointment-form">
+            <form th:method="PATCH" th:action="@{/vinitro/analyses/confirm/{id} (id=${app.getId()})}" th:object="${tagKeeper}">
+                <input type="number" th:field="*{tag}" min="100" max="999" placeholder="Тег анализа (3 цифры)" required>
+                <input type="submit" value="Подтвердить">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

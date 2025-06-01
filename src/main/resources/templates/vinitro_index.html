@@ -5,13 +5,10 @@
     <title>Vinitro</title>
 </head>
 <body>
-    <div th:each="role : ${user.getUserRoles()}">
-        <p th:text="${role.getName()}"></p>
-    </div>
     <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_NURSE'') or hasAuthority(''ROLE_USER'')')}" href="/vinitro/analyses"><img src = "/images/analyses.png" alt="analyses"></a>
-    <a href="#"><img src = "/images/analyses_completing.png" alt="analyses_completing"></a>
-    <a href="#"><img src = "/images/analyses_approving.png" alt="analyses_approving"></a>
-    <a th:if="${#authorization.expression('hasAuthority(''ROLE_USER'')')}" th:href="@{/vinitro/users/{id} (id=${user.getId()})}"><img src = "/images/personal_data.png" alt="personal"></a>
+    <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_ASSISTANT'')')}" href="/vinitro/analyses/processing"><img src = "/images/analyses_completing.png" alt="analyses_completing"></a>
+    <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_NURSE'')')}" href="/vinitro/analyses/waiting"><img src = "/images/analyses_approving.png" alt="analyses_approving"></a>
+    <a th:if="${user.isUser()}" th:href="@{/vinitro/users/{id} (id=${user.getId()})}"><img src = "/images/personal_data.png" alt="personal"></a>
     <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_NURSE'')')}" href="/vinitro/users"><img src = "/images/all_users.png" alt="all_users"></a>
 
 </body>

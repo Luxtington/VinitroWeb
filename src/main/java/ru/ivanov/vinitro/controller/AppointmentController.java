@@ -7,11 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.ivanov.vinitro.dto.VinitroUserDetails;
 import ru.ivanov.vinitro.model.AppointmentForAnalysis;
-import ru.ivanov.vinitro.model.BooleanKeeper;
 import ru.ivanov.vinitro.model.User;
 import ru.ivanov.vinitro.service.AnalysisService;
 import ru.ivanov.vinitro.service.AppointmentService;
 import ru.ivanov.vinitro.service.UserService;
+import ru.ivanov.vinitro.util.TagKeeper;
 
 @Controller
 @RequestMapping("/vinitro/analyses")
@@ -45,5 +45,47 @@ public class AppointmentController {
         User user = userService.findById(((VinitroUserDetails)authentication.getPrincipal()).getId()).orElse(null);
         appointmentService.appointUserToAnalysis(id, user.getId() , appointment.getDate(), appointment.getTime());
         return "redirect:/vinitro/analyses/" + id;
+    }
+
+    @GetMapping("/waiting")
+    public String showNurseActivityPage(Model model){
+        model.addAttribute("appointments", appointmentService.getAllWaitingAnalyses());
+        model.addAttribute("tagKeeper", new TagKeeper());
+        return "nurse";
+    }
+
+    @PatchMapping("/confirm/{appointmentId}")
+    public String confirmAnalysisAppointment(@PathVariable("appointmentId") String id,
+                                             @ModelAttribute("tagKeeper") TagKeeper tagKeeper){
+        appointmentService.moveAppointmentStatusFromWaitingToProcessing(id, tagKeeper.getTag());
+        return "redirect:/vinitro/analyses/waiting";
+    }
+
+    @GetMapping("/waiting/personal")
+    public String pageOfPersonalConfirmingAnalysisAppointment(@ModelAttribute("appointment") AppointmentForAnalysis appointmentForAnalysis,
+                                                              @ModelAttribute("tagKeeper") TagKeeper tagKeeper,
+                                                              Model model){
+        model.addAttribute("users", userService.findAllUsers());
+        model.addAttribute("analyses", analysisService.findAllAnalyses());
+        return "appointment_confirming_page";
+    }
+
+    @PostMapping("/waiting/personal/confirm")
+    public String personalConfirmAnalysisAppointment(@ModelAttribute("appointment") AppointmentForAnalysis appointment){
+        appointmentService.save(appointment);
+        appointmentService.moveAppointmentStatusFromWaitingToProcessing(appointment.getId(), appointment.getTag());
+        return "redirect:/vinitro/analyses/waiting";
+    }
+
+    @GetMapping("/processing")
+    public String showAssistantActivityPage(Model model){
+        model.addAttribute("appointments", appointmentService.getAllProcessingAnalyses());
+        return "assistant";
+    }
+
+    @GetMapping("/complete/{appointmentId}")
+    public String showAppointmentPageCompleting(@PathVariable("appointmentId") String id, Model model){
+        model.addAttribute("appointment", appointmentService.findById(id).orElse(null));
+        return "appointment_confirming_page";
     }
 }
