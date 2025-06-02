@@ -12,12 +12,12 @@
     </style>
 </head>
 <body>
-    <div th:each="app : ${appointments}" class="appointment">
+    <div th:each="app : ${appointments}"  class="appointment">
         <div class="info">
             <p th:text="${app.getTag()}"></p>
             <p th:text="${app.getAnalysis().getName()}"></p>
         </div>
-        <a th:href="@{/vinitro/analyses/complete/{appointmentId} (id = ${app.getId()})}">
+        <a th:href="@{/vinitro/analyses/processing/fill/{id} (id = ${app.getId()})}">
                <div>Заполнить</div>
         </a>
     </div>

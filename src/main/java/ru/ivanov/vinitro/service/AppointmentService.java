@@ -3,6 +3,7 @@ package ru.ivanov.vinitro.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.ivanov.vinitro.model.AnalysisResult;
 import ru.ivanov.vinitro.model.AppointmentForAnalysis;
 import ru.ivanov.vinitro.model.User;
 import ru.ivanov.vinitro.repository.AnalysisRepository;
@@ -83,6 +84,10 @@ public class AppointmentService {
         AppointmentForAnalysis appointment = appointmentRepository.findById(id).orElse(null);
         appointment.setTag(tag);
         appointment.setAnalysisStatus(AnalysisStatus.IN_PROCESSING);
+        // сделал условный оператор, тк метод сервиса дергается
+        // при простом И при ручном подтверждении анализа
+        // следовательно, надо либо апдейтнуть статус существующего,
+        // либо создать новую запись
         if (appointment.getPatient().isAppointedForAnalysis(appointment.getAnalysis().getId())){
             appointment.setId(id);
         } else {
@@ -107,5 +112,15 @@ public class AppointmentService {
             }
         }
         return appointments;
+    }
+
+    @Transactional
+    public void saveResults(AppointmentForAnalysis appointment, List<AnalysisResult> results) {
+        appointment.setResults(results);
+        appointment.setAnalysisStatus(AnalysisStatus.COMPLETED);
+        appointmentRepository.save(appointment);
+        User patient = appointment.getPatient();
+        patient.setId(patient.getId());
+        userRepository.save(patient);
     }
 }

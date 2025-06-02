@@ -1,16 +1,23 @@
 package ru.ivanov.vinitro.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import java.util.HashMap;
 import java.util.Map;
 
-@ToString
-@Getter
-@Setter
 public class AnalysisResult {
-    private String patientId;
-    private final Map<AnalysisField, Object> values = new HashMap<>();
+    private Map<String, Object> values = new HashMap<>();
+
+    public Map<String, Object> getValues() {
+        return values;
+    }
+
+    public void setValues(Map<String, Object> values) {
+        this.values = values;
+    }
+
+    @Override
+    public String toString() {
+        return "AnalysisResult{" +
+                "values=" + values +
+                '}';
+    }
 }

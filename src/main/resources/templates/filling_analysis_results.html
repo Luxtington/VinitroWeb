@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Заполнение результатов анализа</title>
+</head>
+<body>
+    <h1 th:text="${appointment.getAnalysis().getName()} + ' - ' + ${appointment.getTag()}"></h1>
+    <form method="POST" th:action="@{/vinitro/analyses/processing/fill/{id}(id=${appointment.id})}" th:object="${results}">
+        <div th:each="field, iterStat : ${appointment.analysis.fields}">
+            <div class="field-group">
+                <label th:text="${field.name}"></label>
+
+                <!-- Для текстовых полей -->
+                <input type="text" th:if="${field.type == 'TEXT'}"
+                       th:name="|results[0].values['${field.name}']|">
+
+                <!-- Для числовых полей -->
+                <input type="number" th:if="${field.type == 'NUMBER'}"
+                       th:name="|results[0].values['${field.name}']|">
+
+                <!-- Для булевых значений -->
+                <input type="checkbox" th:if="${field.type == 'BOOLEAN'}"
+                       th:name="|results[0].values['${field.name}']|" value="true">
+                <input type="hidden" th:name="|results[0].values['${field.name}']|" value="false">
+            </div>
+        </div>
+        <button type="submit">Отправить результаты</button>
+    </form>
+</body>
+</html>

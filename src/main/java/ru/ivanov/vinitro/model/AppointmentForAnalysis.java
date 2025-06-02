@@ -110,6 +110,10 @@ public class AppointmentForAnalysis {
         this.tag = tag;
     }
 
+    public void setResults(List<AnalysisResult> results) {
+        this.results = results;
+    }
+
     @Override
     public String toString() {
         return "AppointmentForAnalysis{" +

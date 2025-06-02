@@ -11,6 +11,7 @@ import ru.ivanov.vinitro.model.User;
 import ru.ivanov.vinitro.service.AnalysisService;
 import ru.ivanov.vinitro.service.AppointmentService;
 import ru.ivanov.vinitro.service.UserService;
+import ru.ivanov.vinitro.util.ResultsKeeper;
 import ru.ivanov.vinitro.util.TagKeeper;
 
 @Controller
@@ -83,9 +84,18 @@ public class AppointmentController {
         return "assistant";
     }
 
-    @GetMapping("/complete/{appointmentId}")
+    @GetMapping("/processing/fill/{appointmentId}")
     public String showAppointmentPageCompleting(@PathVariable("appointmentId") String id, Model model){
         model.addAttribute("appointment", appointmentService.findById(id).orElse(null));
-        return "appointment_confirming_page";
+        model.addAttribute("results", new ResultsKeeper());
+        return "filling_analysis_results";
+    }
+
+    @PostMapping("/processing/fill/{appointmentId}")
+    public String fillAnalysisResults(@PathVariable("appointmentId") String id,
+                                      @ModelAttribute("results") ResultsKeeper resultsKeeper){
+        AppointmentForAnalysis appointment = appointmentService.findById(id).orElse(null);
+        appointmentService.saveResults(appointment, resultsKeeper.getResults());
+        return "redirect:/vinitro/analyses/processing";
     }
 }
