@@ -44,7 +44,9 @@
             <div>
                 <h2>Запланированные анализы:</h2>
                 <div th:each="appointment: ${user.getAllAnalyses()}">
-                    <p th:if="${appointment.isAnalysisInWaitingState()}" th:text="${appointment.getAnalysis().getName()}"></p>
+                    <div th:if="${appointment.isAnalysisInWaitingState()}">
+                        <p th:text="${appointment.getAnalysis().getName()} + ': ' + ${appointment.getDate()} + ' (' + ${appointment.getTime() + ')'}"></p>
+                    </div>
                 </div>
             </div>
             <div>
@@ -56,7 +58,10 @@
             <div>
                 <h2>Готовые анализы:</h2>
                 <div th:each="appointment: ${user.getAllAnalyses()}">
-                    <p th:if="${appointment.isAnalysisCompleted()}" th:text="${appointment.getAnalysis().getName()}"></p>
+                    <div th:if="${appointment.isAnalysisCompleted()}">
+                        <p th:text="${appointment.getAnalysis().getName()} + ': ' + ${appointment.getDate()}"></p>
+<!--                        pdf-button-->
+                    </div>
                 </div>
             </div>
         </div>

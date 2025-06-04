@@ -14,11 +14,15 @@
             <div class="form-group">
                 <label for="date">Выберите дату:</label>
                 <input type="date" id="date" th:field="*{date}" required>
+<!--                <div class="error-message" th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></div>-->
+                <div class="error-message" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
             </div>
 
             <div class="form-group">
                 <label for="time">Выберите время:</label>
                 <input type="time" id="time" th:field="*{time}" required>
+                <div class="error-message" th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></div>
+<!--                <div class="error-message" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>-->
             </div>
         </div>
         <input type="submit" value="Записаться">

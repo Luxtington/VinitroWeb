@@ -6,30 +6,41 @@
 </head>
 <body>
     <form th:method="POST" th:action="@{/vinitro/analyses/waiting/personal/confirm}" th:object="${appointment}">
+        <div class="form-group">
+
+        </div>
         <label for="analysis">Выберите пройденный анализ:</label>
         <select th:object="${appointment}" th:field="*{analysis}" id="analysis">
             <option th:each="a : ${analyses}" th:value="${a.getId()}"
                     th:text="${a.getName()}">
             </option>
         </select>
-        <label for="patient">Выберите пациента:</label>
-        <select th:object="${appointment}" th:field="*{patient}" id="patient">
-            <option th:each="p : ${users}" th:value="${p.getId()}" th:if="${p.isUser()}"
-                    th:text="${p.getSurname()} + ' ' + ${p.getName()} + ' ' + ${p.getPatronymic()}">>
-            </option>
-        </select>
+        <div class="form-group">
+            <label for="patient">Выберите пациента:</label>
+            <select th:object="${appointment}" th:field="*{patient}" id="patient">
+                <option th:each="p : ${users}" th:value="${p.getId()}" th:if="${p.isUser()}"
+                        th:text="${p.getSurname()} + ' ' + ${p.getName()} + ' ' + ${p.getPatronymic()}">>
+                </option>
+            </select>
+            <div class="error-message" th:if="${#fields.hasErrors('analysis')}" th:errors="*{analysis}"></div>
+        </div>
         <div class="form-group">
             <label for="date">Выберите дату:</label>
             <input type="date" id="date" th:field="*{date}" required>
+<!--            <div class="error-message" th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></div>-->
+            <div class="error-message" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
         </div>
 
         <div class="form-group">
             <label for="time">Выберите время:</label>
             <input type="time" id="time" th:field="*{time}" required>
+            <div class="error-message" th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></div>
+<!--            <div class="error-message" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>-->
         </div>
 
         <label for="tag">Укажите тег:</label>
         <input type="number" th:field="*{tag}" min="100" max="999" placeholder="Тег анализа (3 цифры)" required id="tag">
+        <div class="error-message" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}"></div>
 
         <input type="submit" value="Подтвердить!">
     </form>

@@ -23,6 +23,7 @@
         <div class="little-appointment-form">
             <form th:method="PATCH" th:action="@{/vinitro/analyses/confirm/{id} (id=${app.getId()})}" th:object="${tagKeeper}">
                 <input type="number" th:field="*{tag}" min="100" max="999" placeholder="Тег анализа (3 цифры)" required>
+                <div class="error-message" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}"></div>
                 <input type="submit" value="Подтвердить">
             </form>
         </div>
