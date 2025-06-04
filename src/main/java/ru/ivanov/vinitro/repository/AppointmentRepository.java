@@ -3,6 +3,7 @@ package ru.ivanov.vinitro.repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 import ru.ivanov.vinitro.model.AppointmentForAnalysis;
+import ru.ivanov.vinitro.model.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,4 +12,5 @@ import java.time.LocalTime;
 public interface AppointmentRepository extends MongoRepository<AppointmentForAnalysis, String> {
     AppointmentForAnalysis findByDateAndTime(LocalDate date, LocalTime time);
     AppointmentForAnalysis findByTag(int tag);
+    void deleteByPatient(User user);
 }

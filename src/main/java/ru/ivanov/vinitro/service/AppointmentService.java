@@ -64,6 +64,17 @@ public class AppointmentService {
         userRepository.save(patient);
     }
 
+    public AppointmentForAnalysis appointUserToAnalysisForCheckingValidation(String analysisId, String patientId, LocalDate date, LocalTime time){
+        User patient = userRepository.findById(patientId).orElse(null);
+        AppointmentForAnalysis appointment = new AppointmentForAnalysis();
+        appointment.setAnalysis(analysisRepository.findById(analysisId).orElse(null));
+        appointment.setPatient(patient);
+        appointment.setDate(date);
+        appointment.setTime(time);
+        appointment.setAnalysisStatus(AnalysisStatus.IN_WAITING);
+        return appointment;
+    }
+
     public List<AppointmentForAnalysis> getAllWaitingAnalyses(){
         List<User> allUsers = userRepository.findAll();
         List<AppointmentForAnalysis> appointments = new ArrayList<>();

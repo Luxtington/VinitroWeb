@@ -9,14 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.ivanov.vinitro.dto.VinitroUserDetails;
 import ru.ivanov.vinitro.model.AppointmentForAnalysis;
 import ru.ivanov.vinitro.model.User;
-import ru.ivanov.vinitro.repository.AnalysisRepository;
 import ru.ivanov.vinitro.service.AnalysisService;
 import ru.ivanov.vinitro.service.AppointmentService;
 import ru.ivanov.vinitro.service.UserService;
-import ru.ivanov.vinitro.util.AppointmentValidator;
-import ru.ivanov.vinitro.util.ResultsKeeper;
-import ru.ivanov.vinitro.util.TagKeeper;
-import ru.ivanov.vinitro.util.TagValidator;
+import ru.ivanov.vinitro.util.*;
 
 @Controller
 @RequestMapping("/vinitro/analyses")
@@ -27,16 +23,16 @@ public class AppointmentController {
     private final UserService userService;
     private final AppointmentValidator appointmentValidator;
     private final TagValidator tagValidator;
-    private final AnalysisRepository analysisRepository;
+    private final WorkerValidator workerValidator;
 
     @Autowired
-    public AppointmentController(AnalysisService analysisService, AppointmentService appointmentService, UserService userService, AppointmentValidator appointmentValidator, TagValidator tagValidator, AnalysisRepository analysisRepository) {
+    public AppointmentController(AnalysisService analysisService, AppointmentService appointmentService, UserService userService, AppointmentValidator appointmentValidator, TagValidator tagValidator, WorkerValidator workerValidator) {
         this.analysisService = analysisService;
         this.appointmentService = appointmentService;
         this.userService = userService;
         this.appointmentValidator = appointmentValidator;
         this.tagValidator = tagValidator;
-        this.analysisRepository = analysisRepository;
+        this.workerValidator = workerValidator;
     }
 
     @GetMapping("/{analysis_id}/appoint")
@@ -56,16 +52,16 @@ public class AppointmentController {
                                      Authentication authentication,
                                      BindingResult bindingResult){
 
+        User user = userService.findById(((VinitroUserDetails)authentication.getPrincipal()).getId()).orElse(null);
         // сет для валидации, тк в записи ток дата и время, а нам нужно сверить анализы
-        appointment.setAnalysis(analysisRepository.findById(id).orElse(null));
-        appointmentValidator.validate(appointment, bindingResult);
+        AppointmentForAnalysis validAppointment = appointmentService.appointUserToAnalysisForCheckingValidation(id, user.getId(), appointment.getDate(), appointment.getTime());
+        appointmentValidator.validate(validAppointment, bindingResult);
         if (bindingResult.hasErrors()){
             model.addAttribute("analysis", analysisService.findById(id).orElse(null));
             System.out.println("errors in date in appointForAnalysis");
             return "analysis_appointment_page";
         }
 
-        User user = userService.findById(((VinitroUserDetails)authentication.getPrincipal()).getId()).orElse(null);
         appointmentService.appointUserToAnalysis(id, user.getId() , appointment.getDate(), appointment.getTime());
         return "redirect:/vinitro/analyses/" + id;
     }
@@ -106,10 +102,12 @@ public class AppointmentController {
     public String personalConfirmAnalysisAppointment(@ModelAttribute("appointment") AppointmentForAnalysis appointment,
                                                      BindingResult bindingResult1,
                                                      BindingResult bindingResult2,
+                                                     BindingResult bindingResult3,
                                                      Model model){
         appointmentValidator.validate(appointment, bindingResult1);
         tagValidator.validate(new TagKeeper(appointment.getTag()), bindingResult2);
-        if (bindingResult1.hasErrors() || bindingResult2.hasErrors()){
+        workerValidator.validate(appointment, bindingResult3);
+        if (bindingResult1.hasErrors() || bindingResult2.hasErrors() || bindingResult3.hasErrors()){
             System.out.println("errors in date/tag in personalConfirmAnalysisAppointment");
             model.addAttribute("users", userService.findAllUsers());
             model.addAttribute("analyses", analysisService.findAllAnalyses());

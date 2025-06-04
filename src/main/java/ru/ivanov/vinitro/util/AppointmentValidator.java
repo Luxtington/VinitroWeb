@@ -36,19 +36,18 @@ public class AppointmentValidator implements Validator {
         AppointmentForAnalysis existsAppointment = appointmentRepository.findByDateAndTime(appointment.getDate(), appointment.getTime());
 
         if (existsAppointment!= null && existsAppointment.getAnalysis().getId().equals(appointment.getAnalysis().getId())){
+            System.out.println("11111");
             errors.rejectValue("time", "", "Вы не можете записаться на это время, так как другой пациент уже забронировал это время.");
         }
 
         if (!isValidDate(appointment.getDate(), appointment.getTime())){
+            System.out.println("22222");
             errors.rejectValue("time", "", "Вы не можете записаться на время, которое уже прошло");
         }
 
         if (Period.between(currentDate, appointment.getDate()).getDays() > 7){
+            System.out.println("33333");
             errors.rejectValue("date", "", "Вы можете записаться максиумум на неделю вперёд");
-        }
-
-        if (appointment.getPatient().isAppointedForAnalysis(appointment.getAnalysis().getId())){
-            errors.rejectValue("analysis", "", "Невозможно подтвердить сдачу анализа пациенту, который уже записан на этот анализ");
         }
     }
 

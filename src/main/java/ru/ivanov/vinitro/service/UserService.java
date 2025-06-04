@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ivanov.vinitro.model.Role;
 import ru.ivanov.vinitro.model.User;
+import ru.ivanov.vinitro.repository.AppointmentRepository;
 import ru.ivanov.vinitro.repository.UserRepository;
 
 import java.util.List;
@@ -16,11 +17,13 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AppointmentRepository appointmentRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, AppointmentRepository appointmentRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.appointmentRepository = appointmentRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -48,6 +51,7 @@ public class UserService {
 
     @Transactional
     public void deleteById(String id){
+        appointmentRepository.deleteByPatient(findById(id).orElse(null));
         userRepository.deleteById(id);
     }
 
