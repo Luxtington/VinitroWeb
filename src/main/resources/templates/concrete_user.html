@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="'Пользователь ' + ${user.getSurname()}"></title>
+    <link rel="icon" href="/images/vinitro_icon.png" type="image/x-icon">
 </head>
 <body>
     <div class="reader-details">
@@ -43,7 +44,7 @@
         <div th:if="${user.isUser()}">
             <div>
                 <h2>Запланированные анализы:</h2>
-                <div th:each="appointment: ${user.getAllAnalyses()}">
+                <div th:each="appointment: ${user.getAllAppointments()}">
                     <div th:if="${appointment.isAnalysisInWaitingState()}">
                         <p th:text="${appointment.getAnalysis().getName()} + ': ' + ${appointment.getDate()} + ' (' + ${appointment.getTime() + ')'}"></p>
                     </div>
@@ -51,13 +52,13 @@
             </div>
             <div>
                 <h2>Анализы в обработке:</h2>
-                <div th:each="appointment: ${user.getAllAnalyses()}">
+                <div th:each="appointment: ${user.getAllAppointments()}">
                     <p th:if="${appointment.isAnalysisInProcessing()}" th:text="${appointment.getAnalysis().getName()}"></p>
                 </div>
             </div>
             <div>
                 <h2>Готовые анализы:</h2>
-                <div th:each="appointment: ${user.getAllAnalyses()}">
+                <div th:each="appointment: ${user.getAllAppointments()}">
                     <div th:if="${appointment.isAnalysisCompleted()}">
                         <p th:text="${appointment.getAnalysis().getName()} + ': ' + ${appointment.getDate()}"></p>
 <!--                        pdf-button-->

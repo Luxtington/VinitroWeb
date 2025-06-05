@@ -3,11 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Страница медсестры</title>
+    <link rel="icon" href="/images/vinitro_icon.png" type="image/x-icon">
     <style>
         .appointment{
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+        }
+        .cross-button{
+            background: url('/images/cross_icon.png') no-repeat center;
+            background-size: contain;
+            border: none;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
         }
     </style>
 </head>
@@ -22,9 +33,12 @@
         </div>
         <div class="little-appointment-form">
             <form th:method="PATCH" th:action="@{/vinitro/analyses/confirm/{id} (id=${app.getId()})}" th:object="${tagKeeper}">
-                <input type="number" th:field="*{tag}" min="100" max="999" placeholder="Тег анализа (3 цифры)" required>
+                <input type="number" th:field="*{tag}" placeholder="Тег анализа (3 цифры)" required>
                 <div class="error-message" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}"></div>
                 <input type="submit" value="Подтвердить">
+            </form>
+            <form th:method="DELETE" th:action="@{/vinitro/analyses/remove/{id} (id=${app.getId()})}">
+                <input type="submit" class="cross-button" value="">
             </form>
         </div>
     </div>

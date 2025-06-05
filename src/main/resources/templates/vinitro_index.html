@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Vinitro</title>
+    <link rel="icon" href="/images/vinitro_icon.png" type="image/x-icon">
 </head>
 <body>
     <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_NURSE'') or hasAuthority(''ROLE_USER'')')}" href="/vinitro/analyses"><img src = "/images/analyses.png" alt="analyses"></a>

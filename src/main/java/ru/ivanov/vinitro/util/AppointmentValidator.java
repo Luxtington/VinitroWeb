@@ -10,7 +10,7 @@ import ru.ivanov.vinitro.repository.AppointmentRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 @Component
 public class AppointmentValidator implements Validator {
@@ -36,18 +36,17 @@ public class AppointmentValidator implements Validator {
         AppointmentForAnalysis existsAppointment = appointmentRepository.findByDateAndTime(appointment.getDate(), appointment.getTime());
 
         if (existsAppointment!= null && existsAppointment.getAnalysis().getId().equals(appointment.getAnalysis().getId())){
-            System.out.println("11111");
             errors.rejectValue("time", "", "Вы не можете записаться на это время, так как другой пациент уже забронировал это время.");
         }
 
         if (!isValidDate(appointment.getDate(), appointment.getTime())){
-            System.out.println("22222");
             errors.rejectValue("time", "", "Вы не можете записаться на время, которое уже прошло");
         }
 
-        if (Period.between(currentDate, appointment.getDate()).getDays() > 7){
-            System.out.println("33333");
+        if (ChronoUnit.DAYS.between(currentDate, appointment.getDate()) > 7){
             errors.rejectValue("date", "", "Вы можете записаться максиумум на неделю вперёд");
+        } else{
+            System.out.println("epta");
         }
     }
 

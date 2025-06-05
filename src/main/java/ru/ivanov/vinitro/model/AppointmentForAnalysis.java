@@ -1,5 +1,6 @@
 package ru.ivanov.vinitro.model;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,6 +22,7 @@ public class AppointmentForAnalysis {
     private AnalysisStatus analysisStatus;
     private LocalDate date;
     private LocalTime time;
+    @Range(min = 100, max = 999, message = "Некорректная длина тега, он должен быть трёхзначным.")
     private int tag;
     private List<AnalysisResult> results = new ArrayList<>();
 
@@ -57,7 +59,7 @@ public class AppointmentForAnalysis {
 
     public void setPatient(User patient) {
         this.patient = patient;
-        patient.addAnalysisToAnalysisList(this);
+        patient.addAnalysisToAppointmentList(this);
     }
 
     public LocalDate getDate() {

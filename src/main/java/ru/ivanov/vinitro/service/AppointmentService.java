@@ -46,7 +46,12 @@ public class AppointmentService {
 
     @Transactional
     public void deleteById(String id){
+        AppointmentForAnalysis appointment = appointmentRepository.findById(id).orElse(null);
+        User patient = appointment.getPatient();
+        patient.refuseFromAppointment(appointment);
         appointmentRepository.deleteById(id);
+        patient.setId(patient.getId());
+        userRepository.save(patient);
     }
 
     @Transactional
@@ -80,7 +85,7 @@ public class AppointmentService {
         List<AppointmentForAnalysis> appointments = new ArrayList<>();
         for (User user : allUsers){
             if (user.isUser()){
-                for (AppointmentForAnalysis a : user.getAllAnalyses()){
+                for (AppointmentForAnalysis a : user.getAllAppointments()){
                     if (a.isAnalysisInWaitingState()){
                         appointments.add(a);
                     }
@@ -102,7 +107,7 @@ public class AppointmentService {
         if (appointment.getPatient().isAppointedForAnalysis(appointment.getAnalysis().getId())){
             appointment.setId(id);
         } else {
-            appointment.getPatient().addAnalysisToAnalysisList(appointment);
+            appointment.getPatient().addAnalysisToAppointmentList(appointment);
         }
         appointmentRepository.save(appointment);
         User user = appointment.getPatient();
@@ -115,7 +120,7 @@ public class AppointmentService {
         List<AppointmentForAnalysis> appointments = new ArrayList<>();
         for (User user : allUsers){
             if (user.isUser()){
-                for (AppointmentForAnalysis a : user.getAllAnalyses()){
+                for (AppointmentForAnalysis a : user.getAllAppointments()){
                     if (a.isAnalysisInProcessing()){
                         appointments.add(a);
                     }

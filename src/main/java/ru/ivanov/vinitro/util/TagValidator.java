@@ -24,6 +24,10 @@ public class TagValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         TagKeeper tagKeeper = (TagKeeper) target;
+        // потому что убрал required в форме
+//        if (tagKeeper.getTag() == 0){
+//            errors.rejectValue("tag", "", "Данным тегом уже помечен другой анализ, укажите уникальный тег");
+//        }
 
         if (appointmentRepository.findByTag(tagKeeper.getTag()) != null){
             errors.rejectValue("tag", "", "Данным тегом уже помечен другой анализ, укажите уникальный тег");

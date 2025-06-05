@@ -9,7 +9,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 @Document(collection = "user")
 public class User {
@@ -42,9 +41,7 @@ public class User {
     private Set<Role> userRoles = new HashSet<>();
 
     // business
-    private List<AppointmentForAnalysis> allAnalyses = new ArrayList<>();
-//    private List<Analysis> processingAnalyses = new ArrayList<>();
-//    private List<Analysis> readyAnalyses = new ArrayList<>();
+    private List<AppointmentForAnalysis> allAppointments = new ArrayList<>();
 
     public User() {
     }
@@ -137,12 +134,12 @@ public class User {
             throw new RuntimeException("Incorrect name of role");
         }
         userRoles.add(role);
-        allAnalyses = new ArrayList<>();
+        allAppointments = new ArrayList<>();
         System.out.println("Все записи аннулированы");
     }
 
-    public List<AppointmentForAnalysis> getAllAnalyses() {
-        return allAnalyses;
+    public List<AppointmentForAnalysis> getAllAppointments() {
+        return allAppointments;
     }
 
     public boolean isAdmin(){
@@ -165,20 +162,26 @@ public class User {
         return res == 1 && userRoles.size() == 1;
     }
 
-    public void addAnalysisToAnalysisList(@NotNull AppointmentForAnalysis appointmentForAnalysis){
-        allAnalyses.add(appointmentForAnalysis);
+    public void addAnalysisToAppointmentList(@NotNull AppointmentForAnalysis appointmentForAnalysis){
+        allAppointments.add(appointmentForAnalysis);
         System.out.println("analysis was added to analyses list");
     }
 
     // будет 2 условия: такой айди есть и статус норм (сделано - можно делать еще раз)
     public boolean isAppointedForAnalysis(String analysisId){
-        Optional<AppointmentForAnalysis> appointment = allAnalyses.stream()
+        Optional<AppointmentForAnalysis> appointment = allAppointments.stream()
                       .filter(appointmentForAnalysis -> Objects.equals(appointmentForAnalysis.getAnalysis().getId(), analysisId))
                       .findFirst();
         if (!appointment.isPresent()){
             return false;
         }
         return !appointment.orElse(null).isAnalysisCompleted();
+    }
+
+    public void refuseFromAppointment(@NotNull AppointmentForAnalysis appointmentForAnalysis){
+        if (allAppointments.contains(appointmentForAnalysis)){
+            allAppointments.remove(appointmentForAnalysis);
+        }
     }
 
     @Override

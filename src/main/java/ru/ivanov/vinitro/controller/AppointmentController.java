@@ -89,6 +89,12 @@ public class AppointmentController {
         return "redirect:/vinitro/analyses/waiting";
     }
 
+    @DeleteMapping("/remove/{id}")
+    public String deleteAppointment(@PathVariable("id") String id){
+        appointmentService.deleteById(id);
+        return "redirect:/vinitro/analyses/waiting";
+    }
+
     @GetMapping("/waiting/personal")
     public String pageOfPersonalConfirmingAnalysisAppointment(@ModelAttribute("appointment") AppointmentForAnalysis appointmentForAnalysis,
                                                               @ModelAttribute("tagKeeper") TagKeeper tagKeeper,

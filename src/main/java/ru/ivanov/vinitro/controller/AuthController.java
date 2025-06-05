@@ -42,7 +42,7 @@ public class AuthController {
 
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()){
-            return "redirect:/register";
+            return "register";
         }
 
         try {
