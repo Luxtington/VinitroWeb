@@ -39,13 +39,18 @@ public class UserService {
     public void save(User user){
         user.addRoleToUser(new Role("ROLE_USER"));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        System.out.println("created in srvc = " + user);
         userRepository.save(user);
     }
 
     @Transactional
     public void save(String id, User user){
+        User existsUser = findById(id).orElse(null);
+
         user.setId(id);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setUserRoles(existsUser.getUserRoles());
+        user.setAllAppointments(existsUser.getAllAppointments());
         userRepository.save(user);
     }
 

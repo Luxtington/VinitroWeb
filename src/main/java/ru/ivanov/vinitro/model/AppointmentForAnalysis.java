@@ -58,6 +58,7 @@ public class AppointmentForAnalysis {
     }
 
     public void setPatient(User patient) {
+        // true - для дело, false - для валидации
         this.patient = patient;
         patient.addAnalysisToAppointmentList(this);
     }
@@ -88,8 +89,6 @@ public class AppointmentForAnalysis {
 
     public void setAnalysisStatus(AnalysisStatus analysisStatus) {
         this.analysisStatus = analysisStatus;
-        System.out.println("athis nal = " + this.analysisStatus);
-        System.out.println("anal = " + analysisStatus);
     }
 
     public boolean isAnalysisInWaitingState(){
@@ -101,8 +100,11 @@ public class AppointmentForAnalysis {
     }
 
     public boolean isAnalysisCompleted(){
-        return analysisStatus.equals(AnalysisStatus.COMPLETED);
+        if (this.analysisStatus != null)
+            return analysisStatus.equals(AnalysisStatus.COMPLETED);
+        return false;
     }
+
 
     public int getTag() {
         return tag;

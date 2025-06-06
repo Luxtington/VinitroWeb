@@ -53,6 +53,7 @@ public class AppointmentController {
                                      BindingResult bindingResult){
 
         User user = userService.findById(((VinitroUserDetails)authentication.getPrincipal()).getId()).orElse(null);
+
         // сет для валидации, тк в записи ток дата и время, а нам нужно сверить анализы
         AppointmentForAnalysis validAppointment = appointmentService.appointUserToAnalysisForCheckingValidation(id, user.getId(), appointment.getDate(), appointment.getTime());
         appointmentValidator.validate(validAppointment, bindingResult);
@@ -110,6 +111,7 @@ public class AppointmentController {
                                                      BindingResult bindingResult2,
                                                      BindingResult bindingResult3,
                                                      Model model){
+        System.out.println("WORKER VALID = " + appointment);
         appointmentValidator.validate(appointment, bindingResult1);
         tagValidator.validate(new TagKeeper(appointment.getTag()), bindingResult2);
         workerValidator.validate(appointment, bindingResult3);

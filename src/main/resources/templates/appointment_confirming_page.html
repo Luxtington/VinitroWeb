@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Запись на анализ</title>
     <link rel="icon" href="/images/vinitro_icon.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <body>
     <form th:method="POST" th:action="@{/vinitro/analyses/waiting/personal/confirm}" th:object="${appointment}">
@@ -45,5 +48,20 @@
 
         <input type="submit" value="Подтвердить!">
     </form>
+
+    <script>
+        $(document).ready(function() {
+            // инициализация селект2 для выпадающих списков
+            $('#analysis').select2({
+                placeholder: "Выберите анализ...",
+                allowClear: true
+            });
+
+            $('#patient').select2({
+                placeholder: "Выберите пациента...",
+                allowClear: true
+            });
+        });
+    </script>
 </body>
 </html>

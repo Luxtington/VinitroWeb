@@ -142,6 +142,10 @@ public class User {
         return allAppointments;
     }
 
+    public void setAllAppointments(List<AppointmentForAnalysis> allAppointments) {
+        this.allAppointments = allAppointments;
+    }
+
     public boolean isAdmin(){
         int res = (int)userRoles.stream().filter(role -> role.getName().equals("ROLE_ADMIN")).count();
         return res == 1;
@@ -169,13 +173,29 @@ public class User {
 
     // будет 2 условия: такой айди есть и статус норм (сделано - можно делать еще раз)
     public boolean isAppointedForAnalysis(String analysisId){
-        Optional<AppointmentForAnalysis> appointment = allAppointments.stream()
-                      .filter(appointmentForAnalysis -> Objects.equals(appointmentForAnalysis.getAnalysis().getId(), analysisId))
-                      .findFirst();
-        if (!appointment.isPresent()){
+        if (allAppointments.isEmpty()){
+            System.out.println("isAppointedForAnalysis111");
             return false;
         }
-        return !appointment.orElse(null).isAnalysisCompleted();
+        List<AppointmentForAnalysis> appointments = allAppointments.stream()
+                      .filter(appointmentForAnalysis -> Objects.equals(appointmentForAnalysis.getAnalysis().getId(), analysisId))
+                .toList();
+        if (appointments.isEmpty()){
+            System.out.println("isAppointedForAnalysis222");
+            return false;
+        }
+
+        for (AppointmentForAnalysis app : appointments){
+            if (!app.isAnalysisCompleted() && app.getId() != null){
+                System.out.println("isAppointedForAnalysis444");
+                return true;
+            } else if (app.getId() == null){
+                System.out.println("there is a fake valid appointment");
+            }
+        }
+
+        System.out.println("isAppointedForAnalysis555");
+        return false;
     }
 
     public void refuseFromAppointment(@NotNull AppointmentForAnalysis appointmentForAnalysis){

@@ -107,6 +107,7 @@ public class AppointmentService {
         if (appointment.getPatient().isAppointedForAnalysis(appointment.getAnalysis().getId())){
             appointment.setId(id);
         } else {
+            System.out.println("nurse is working in service");
             appointment.getPatient().addAnalysisToAppointmentList(appointment);
         }
         appointmentRepository.save(appointment);

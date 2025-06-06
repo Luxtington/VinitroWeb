@@ -45,8 +45,6 @@ public class AppointmentValidator implements Validator {
 
         if (ChronoUnit.DAYS.between(currentDate, appointment.getDate()) > 7){
             errors.rejectValue("date", "", "Вы можете записаться максиумум на неделю вперёд");
-        } else{
-            System.out.println("epta");
         }
     }
 
