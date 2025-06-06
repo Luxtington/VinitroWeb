@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Результаты анализов</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+<h1>Результаты анализов</h1>
+<div class="patient-info">
+    <p><strong>Дата:</strong> <span th:text="${appointment.date}"></span></p>
+    <p><strong>Время:</strong> <span th:text="${appointment.time}"></span></p>
+</div>
+
+<!-- Таблица для результатов -->
+<table>
+    <thead>
+    <tr>
+        <th>Параметр</th>
+        <th>Значение</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Обходим каждый AnalysisResult -->
+    <tr th:each="result : ${appointment.results}">
+        <!-- Обходим каждую запись в Map (values) -->
+        <td th:each="entry : ${result.values}" th:text="${entry.key}"></td>
+        <td th:each="entry : ${result.values}" th:text="${entry.value}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

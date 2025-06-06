@@ -76,6 +76,10 @@ public class User {
         return name;
     }
 
+    public String getInitials(){
+        return String.format("%s %s %s", getSurname(), getName(), getPatronymic());
+    }
+
     public void setName(@Size(min = 2, max = 15, message = "Некорректная длина имени") @NotEmpty(message = "Имя не может быть пустым") String name) {
         this.name = name;
     }

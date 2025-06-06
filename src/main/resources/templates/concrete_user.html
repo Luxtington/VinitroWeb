@@ -61,7 +61,10 @@
                 <div th:each="appointment: ${user.getAllAppointments()}">
                     <div th:if="${appointment.isAnalysisCompleted()}">
                         <p th:text="${appointment.getAnalysis().getName()} + ': ' + ${appointment.getDate()}"></p>
-<!--                        pdf-button-->
+                        <a th:href="@{/vinitro/analyses/pdf/download/{id}(id=${appointment.id})}"
+                           class="btn btn-primary">
+                            <i class="fas fa-file-pdf"></i> Скачать PDF
+                        </a>
                     </div>
                 </div>
             </div>
