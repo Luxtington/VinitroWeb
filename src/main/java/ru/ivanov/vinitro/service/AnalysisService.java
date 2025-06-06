@@ -11,6 +11,7 @@ import ru.ivanov.vinitro.repository.UserRepository;
 import ru.ivanov.vinitro.util.AnalysisStatus;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,5 +58,14 @@ public class AnalysisService {
         else{
             throw new RuntimeException("User not found");
         }
+    }
+
+    public List<Analysis> searchAnalysisByName(String partOfName){
+        List<Analysis> result = new ArrayList<>();
+        for (Analysis a : findAllAnalyses()){
+            if (a.getName().toLowerCase().startsWith(partOfName.toLowerCase()))
+                result.add(a);
+        }
+        return result;
     }
 }

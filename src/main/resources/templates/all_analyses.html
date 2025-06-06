@@ -4,11 +4,39 @@
     <meta charset="UTF-8">
     <title>Анализы</title>
     <link rel="icon" href="/images/vinitro_icon.png" type="image/x-icon">
+    <style>
+        .submit-btn {
+            width: 46px;
+            height: 46px;
+            background-color: #f8f9fa;
+            background-image: url('/images/search_icon.png');
+            background-size: 24px;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #1aa179;
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
     <div>
         <a href="/vinitro/index">На главную</a>
     </div>
+    <form method="GET" action="/vinitro/analyses/search" th:object="${search_holder}" class="search-form">
+        <input type="text" id="inputTitle" th:field="*{partOfName}" placeholder="Введите название анализа, который хотите найти">
+        <button type="submit" class="submit-btn" title="Найти"></button>
+    </form>
     <div class="user-list">
         <div th:each="analysis : ${all_analyses}" class="user">
             <a th:href="@{/vinitro/analyses/{id} (id = ${analysis.getId()})}">

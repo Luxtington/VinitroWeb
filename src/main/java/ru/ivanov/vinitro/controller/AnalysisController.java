@@ -9,9 +9,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.ivanov.vinitro.dto.VinitroUserDetails;
 import ru.ivanov.vinitro.model.Analysis;
+import ru.ivanov.vinitro.util.AnalysisNameKeeper;
 import ru.ivanov.vinitro.util.BooleanKeeper;
 import ru.ivanov.vinitro.service.AnalysisService;
 import ru.ivanov.vinitro.util.AnalysisValidator;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/vinitro/analyses")
@@ -30,6 +33,7 @@ public class AnalysisController {
     public String showAllAnalyses(Model model){
         model.addAttribute("all_analyses", analysisService.findAllAnalyses());
         model.addAttribute("analyses_quantity", analysisService.findAllAnalyses().size());
+        model.addAttribute("search_holder", new AnalysisNameKeeper());
         return "all_analyses";
     }
 
@@ -78,5 +82,13 @@ public class AnalysisController {
         return "redirect:/vinitro/analyses";
     }
 
-    //в пост запросе отправим айди анализа на контроллер юзера
+    @GetMapping("/search")
+    public String searchAnalysisByName(@ModelAttribute("search_holder") AnalysisNameKeeper keeper,
+                                       Model model){
+        List<Analysis> searchedAnalyses = analysisService.searchAnalysisByName(keeper.getPartOfName());
+        model.addAttribute("all_analyses", searchedAnalyses);
+        model.addAttribute("analyses_quantity", searchedAnalyses.size());
+        model.addAttribute("search_holder", new AnalysisNameKeeper());
+        return "all_analyses";
+    }
 }
