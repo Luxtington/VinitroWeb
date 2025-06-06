@@ -4,13 +4,148 @@
     <meta charset="UTF-8">
     <title>Vinitro</title>
     <link rel="icon" href="/images/vinitro_icon.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f7ff;
+            background-image:
+                    radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.1) 0px, transparent 50%),
+                    radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.2) 0px, transparent 50%),
+                    linear-gradient(to bottom, #ffffff, #f0f7ff);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="%233B82F6" stroke-width="0.5" opacity="0.1"><path d="M20,20 L80,20 L80,80 L20,80 Z M30,30 L70,30 L70,70 L30,70 Z M40,40 L60,40 L60,60 L40,60 Z" stroke-linecap="round"/><circle cx="50" cy="50" r="15"/><line x1="0" y1="50" x2="100" y2="50"/><line x1="50" y1="0" x2="50" y2="100"/></svg>');
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1e4b8b;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+            position: relative;
+            padding-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #3B82F6;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #3B82F6, #93C5FD);
+        }
+
+        .icons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        a {
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        a:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background-color: #3B82F6;
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        a:hover::after {
+            width: 80%;
+        }
+
+        img {
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -4px rgba(59, 130, 246, 0.1);
+            max-width: 220px;
+            height: auto;
+            transition: box-shadow 0.3s ease;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            background: white;
+        }
+
+        a:hover img {
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.2), 0 10px 10px -5px rgba(59, 130, 246, 0.04);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .icons-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            img {
+                max-width: 180px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_NURSE'') or hasAuthority(''ROLE_USER'')')}" href="/vinitro/analyses"><img src = "/images/analyses.png" alt="analyses"></a>
-    <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_ASSISTANT'')')}" href="/vinitro/analyses/processing"><img src = "/images/analyses_completing.png" alt="analyses_completing"></a>
-    <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_NURSE'')')}" href="/vinitro/analyses/waiting"><img src = "/images/analyses_approving.png" alt="analyses_approving"></a>
-    <a th:if="${user.isUser()}" th:href="@{/vinitro/users/{id} (id=${user.getId()})}"><img src = "/images/personal_data.png" alt="personal"></a>
-    <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_NURSE'')')}" href="/vinitro/users"><img src = "/images/all_users.png" alt="all_users"></a>
-
+<div class="page-container">
+    <div><a href="/vinitro/auth/logout">Выйти</a></div>
+    <h1>Добро пожаловать в Vinitro</h1>
+    <div class="icons-container">
+        <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_NURSE'') or hasAuthority(''ROLE_USER'')')}" href="/vinitro/analyses"><img src="/images/analyses.png" alt="analyses"></a>
+        <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_ASSISTANT'')')}" href="/vinitro/analyses/processing"><img src="/images/analyses_completing.png" alt="analyses_completing"></a>
+        <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_NURSE'')')}" href="/vinitro/analyses/waiting"><img src="/images/analyses_approving.png" alt="analyses_approving"></a>
+        <a th:if="${user.isUser()}" th:href="@{/vinitro/users/{id} (id=${user.getId()})}"><img src="/images/personal_data.png" alt="personal"></a>
+        <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'') or hasAuthority(''ROLE_NURSE'')')}" href="/vinitro/users"><img src="/images/all_users.png" alt="all_users"></a>
+    </div>
+</div>
 </body>
 </html>

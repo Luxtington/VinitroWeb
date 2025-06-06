@@ -4,10 +4,74 @@
     <meta charset="UTF-8" />
     <title>Результаты анализов</title>
     <style>
-        body { font-family: Arial; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; }
-        th { background-color: #f2f2f2; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 40px;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #3B82F6;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 1rem;
+        }
+
+        .patient-info {
+            background-color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .patient-info p {
+            margin: 0.5rem 0;
+        }
+
+        .patient-info strong {
+            color: #4b5563;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
+        }
+
+        th {
+            background-color: #3B82F6;
+            color: white;
+            font-weight: 500;
+            text-align: left;
+            padding: 1rem;
+            border: none;
+        }
+
+        td {
+            padding: 1rem;
+            border: none;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        tr:hover {
+            background-color: #f1f5f9;
+        }
     </style>
 </head>
 <body>

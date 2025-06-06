@@ -5,12 +5,103 @@
     <title>Страница медсестры</title>
     <link rel="icon" href="/images/vinitro_icon.png" type="image/x-icon">
     <style>
-        .appointment{
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 2rem;
+            color: #1f2937;
+        }
+
+        .manual-confirm-link {
+            display: inline-block;
+            color: #3B82F6;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .manual-confirm-link:hover {
+            background-color: #3B82F6;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
+        }
+
+        .appointment {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease;
         }
-        .cross-button{
+
+        .appointment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
+        }
+
+        .info {
+            flex: 1;
+        }
+
+        .info p {
+            margin: 0.5rem 0;
+            color: #1f2937;
+        }
+
+        .info p:first-child {
+            font-weight: 600;
+            color: #3B82F6;
+        }
+
+        .little-appointment-form {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        input[type="number"] {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+            width: 200px;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+
+        input[type="submit"] {
+            padding: 0.75rem 1.5rem;
+            background-color: #3B82F6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2563eb;
+        }
+
+        .cross-button {
             background: url('/images/cross_icon.png') no-repeat center;
             background-size: contain;
             border: none;
@@ -18,13 +109,25 @@
             height: 24px;
             cursor: pointer;
             opacity: 0.7;
-            transition: opacity 0.2s;
+            transition: all 0.2s ease;
+            padding: 0;
+        }
+
+        .cross-button:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
         }
     </style>
 </head>
 <body>
     <div>
-        <a href="/vinitro/analyses/waiting/personal">Подтвердить приём вручную</a>
+        <a href="/vinitro/analyses/waiting/personal" class="manual-confirm-link">Подтвердить приём вручную</a>
     </div>
     <div th:each="app : ${appointments}" class="appointment">
         <div class="info">

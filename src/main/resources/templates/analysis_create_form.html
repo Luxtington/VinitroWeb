@@ -5,20 +5,133 @@
     <title>Создать анализ</title>
     <link rel="icon" href="/images/vinitro_icon.png" type="image/x-icon">
     <style>
-        .field-group {
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background: #f9f9f9;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 2rem;
+            color: #1f2937;
         }
-        .remove-field-btn {
-            background: #ff4444;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            margin-top: 5px;
+
+        h1 {
+            color: #3B82F6;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            color: #4b5563;
+            margin: 2rem 0 1rem;
+            font-size: 1.2rem;
+        }
+
+        form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        div {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+            background-color: white;
             cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #add-field-btn {
+            background-color: #3B82F6;
+            color: white;
+            margin-right: 1rem;
+        }
+
+        #add-field-btn:hover {
+            background-color: #2563eb;
+        }
+
+        button[type="submit"] {
+            background-color: #3B82F6;
+            color: white;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2563eb;
+        }
+
+        .field-group {
+            margin: 1rem 0;
+            padding: 1.5rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            transition: border-color 0.2s ease;
+        }
+
+        .field-group:hover {
+            border-color: #3B82F6;
+        }
+
+        .remove-field-btn {
+            background-color: #ef4444;
+            color: white;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+        }
+
+        .remove-field-btn:hover {
+            background-color: #dc2626;
+        }
+
+        #fields-container {
+            margin-bottom: 2rem;
         }
     </style>
 </head>

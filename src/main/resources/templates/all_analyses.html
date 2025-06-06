@@ -5,10 +5,51 @@
     <title>Анализы</title>
     <link rel="icon" href="/images/vinitro_icon.png" type="image/x-icon">
     <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 2rem;
+            color: #1f2937;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #3B82F6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+
         .submit-btn {
             width: 46px;
             height: 46px;
-            background-color: #f8f9fa;
+            background-color: #f0f7ff;
             background-image: url('/images/search_icon.png');
             background-size: 24px;
             background-position: center;
@@ -20,18 +61,102 @@
         }
 
         .submit-btn:hover {
-            background-color: #1aa179;
+            background-color: #93C5FD;
             transform: translateY(-1px);
         }
 
         .submit-btn:active {
             transform: translateY(0);
         }
+
+        .user-list {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .user {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s ease;
+        }
+
+        .user:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
+        }
+
+        .user a {
+            color: #1f2937;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .user a:hover {
+            color: #3B82F6;
+        }
+
+        .btn-pair {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-pair img {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-pair img:hover {
+            transform: scale(1.1);
+        }
+
+        .delete-btn {
+            width: 24px;
+            height: 24px;
+            background-color: transparent;
+            background-image: url('/images/delete_button.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .delete-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .analyses-count {
+            color: #4b5563;
+            margin-bottom: 1rem;
+        }
+
+        .create-btn {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .create-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .create-btn img {
+            width: 32px;
+            height: 32px;
+        }
     </style>
 </head>
 <body>
     <div>
-        <a href="/vinitro/index">На главную</a>
+        <a href="/vinitro/index" class="back-link">← На главную</a>
     </div>
     <form method="GET" action="/vinitro/analyses/search" th:object="${search_holder}" class="search-form">
         <input type="text" id="inputTitle" th:field="*{partOfName}" placeholder="Введите название анализа, который хотите найти">
@@ -52,9 +177,9 @@
             </div>
         </div>
     </div>
-    <div th:text="'Всего анализов: ' + ${analyses_quantity}"></div>
+    <div class="analyses-count" th:text="'Всего анализов: ' + ${analyses_quantity}"></div>
     <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
-        <a href="/vinitro/analyses/create"><img src="/images/plus_icon.png" alt="plus"></a>
+        <a href="/vinitro/analyses/create" class="create-btn"><img src="/images/plus_icon.png" alt="plus"></a>
     </div>
 </body>
 </html>

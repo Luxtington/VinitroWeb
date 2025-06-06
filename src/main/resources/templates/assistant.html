@@ -5,21 +5,79 @@
     <title>Страница лаборанта</title>
     <link rel="icon" href="/images/vinitro_icon.png" type="image/x-icon">
     <style>
-        .appointment{
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 2rem;
+            color: #1f2937;
+        }
+
+        .appointment {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease;
+        }
+
+        .appointment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
+        }
+
+        .info {
+            flex: 1;
+        }
+
+        .info p {
+            margin: 0.5rem 0;
+            color: #1f2937;
+        }
+
+        .info p:first-child {
+            font-weight: 600;
+            color: #3B82F6;
+            font-size: 1.2rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3B82F6;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        a:hover {
+            background-color: #3B82F6;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        a div {
+            display: inline-block;
         }
     </style>
 </head>
 <body>
-    <div th:each="app : ${appointments}"  class="appointment">
+    <div th:if="${appointments.isEmpty()}">
+        Нет подтверждённых анализов
+    </div>
+    <div th:unless="${appointments.isEmpty()}" th:each="app : ${appointments}" class="appointment">
         <div class="info">
             <p th:text="${app.getTag()}"></p>
             <p th:text="${app.getAnalysis().getName()}"></p>
         </div>
         <a th:href="@{/vinitro/analyses/processing/fill/{id} (id = ${app.getId()})}">
-               <div>Заполнить</div>
+            <div>Заполнить</div>
         </a>
     </div>
 </body>

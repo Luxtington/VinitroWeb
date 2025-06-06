@@ -2,131 +2,335 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Все пользователи</title>
+    <title>Все пользователи | Vinitro</title>
     <link rel="icon" href="/images/vinitro_icon.png" type="image/x-icon">
     <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 2rem;
+            color: #1e3a8a;
+            background-image:
+                    radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.05) 0px, transparent 50%),
+                    radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.1) 0px, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: #1e3a8a;
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #3B82F6, #93C5FD);
+            border-radius: 3px;
+        }
+
+        .home-btn {
+            background-color: #3B82F6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+        }
+
+        .home-btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        }
+
+        .home-btn img {
+            width: 16px;
+            height: 16px;
+            filter: brightness(0) invert(1);
+        }
+
         .user-list {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 1rem;
+            margin-top: 2rem;
         }
 
         .user {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 1.25rem;
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid #3B82F6;
         }
 
         .user:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.1);
         }
 
-        .admin{
+        .user-info {
             display: flex;
-            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+            flex-grow: 1;
         }
+
+        .user-role-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .user-name {
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: #1e3a8a;
+        }
+
+        .admin {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin .user-name {
+            color: #6b7280;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
         .btn-pair {
             display: flex;
-            gap: 10px;
+            gap: 0.75rem;
             align-items: center;
         }
-        .delete-btn {
-            background: url('/images/delete_button.png') no-repeat center;
-            background-size: contain;
+
+        .action-btn {
+            background: none;
             border: none;
-            width: 24px;
-            height: 24px;
             cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.2s;
+            transition: all 0.2s;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
         }
-        .total-quantity{
-            margin-top: 10px;
-            color: rgb(133, 130, 130);
-            font-size: 13px;
+
+        .action-btn:hover {
+            background-color: #f3f4f6;
+            transform: scale(1.1);
         }
-        .home-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: transparent;
-            border: 1px solid #20C997;
-            color: #20C997;
-            border-radius: 20px;
-            padding: 6px 12px;
+
+        .action-btn img {
+            width: 18px;
+            height: 18px;
+        }
+
+        .delete-btn {
+            filter: brightness(0) saturate(100%) invert(26%) sepia(89%) saturate(2394%) hue-rotate(340deg) brightness(91%) contrast(89%);
+        }
+
+        .delete-btn:hover {
+            filter: brightness(0) saturate(100%) invert(16%) sepia(99%) saturate(4415%) hue-rotate(358deg) brightness(94%) contrast(117%);
+        }
+
+        .employ-btn {
+            padding: 0.4rem 0.8rem;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .employ-btn:hover {
+            background-color: #bae6fd;
+            transform: translateY(-1px);
+        }
+
+        .employ-btn img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .total-quantity {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .add-user-btn {
+            background-color: #3B82F6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 0.5rem;
             transition: all 0.2s;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
         }
 
-        .home-btn:hover {
-            background-color: #20C997;
-            color: white;
+        .add-user-btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
         }
 
-        .home-btn img {
+        .add-user-btn img {
             width: 16px;
             height: 16px;
-            filter: brightness(0) saturate(100%) invert(67%) sepia(48%) saturate(687%) hue-rotate(121deg) brightness(89%) contrast(89%);
-        }
-
-        .home-btn:hover img {
             filter: brightness(0) invert(1);
         }
 
-        .employ{
-            background: url('/images/employ_icon.png') no-repeat center;
+        /* Медиа-запросы для адаптивности */
+        @media (max-width: 768px) {
+            .user {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .home-btn {
+                align-self: flex-end;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="home-btn">
-        <a href="/vinitro/index">На главную</a>
+<div class="container">
+    <div class="header">
+        <h1>Список пользователей</h1>
+        <a href="/vinitro/index" class="home-btn">
+            <img src="/images/home_icon.png" alt="home">
+            На главную
+        </a>
     </div>
+
     <div class="user-list">
         <div th:each="user : ${all_users}" class="user">
-            <a th:if="${!user.isAdmin()}" th:href="@{/vinitro/users/{id} (id = ${user.getId()})}">
-                <div th:if="${user.isNurse()}"><img src="/images/nurse_icon.png" alt="nurse"></div>
-                <div th:if="${user.isAssistant()}"><img src="/images/assistant_icon.png" alt="nurse"></div>
-                <div th:text="${user.getSurname()} + ' ' + ${user.getName()} + ' ' + ${user.getPatronymic()}"></div>
+            <div class="user-info">
+                <div th:if="${!user.isAdmin()}">
+                    <div th:if="${user.isNurse()}"><img src="/images/nurse_icon.png" alt="nurse" class="user-role-icon"></div>
+                    <div th:if="${user.isAssistant()}"><img src="/images/assistant_icon.png" alt="assistant" class="user-role-icon"></div>
+                    <div th:if="${!user.isNurse() && !user.isAssistant()}"></div>
+                </div>
+                <div th:if="${user.isAdmin()}" class="admin">
+                    <img src="/images/admin_icon.png" alt="admin" class="user-role-icon">
+                </div>
+                <a th:if="${!user.isAdmin()}" th:href="@{/vinitro/users/{id} (id = ${user.getId()})}">
+                    <div class="user-name" th:text="${user.getSurname()} + ' ' + ${user.getName()} + ' ' + ${user.getPatronymic()}"></div>
+                </a>
+
+            </div>
+
+            <div class="actions" th:if="${!user.isAdmin()}">
                 <div th:if="${!user.isNurse()} and ${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
                     <form method="POST" th:action="@{/vinitro/users/employ/nurse/{id} (id = ${user.getId()})}">
-                        <input type="submit" class="employ" title="Нанять в качестве медсестры">
+                        <button type="submit" class="employ-btn">
+                            <img src="/images/employ_icon.png" alt="nurse">
+                            Назначить медсестрой
+                        </button>
                     </form>
                 </div>
                 <div th:if="${!user.isAssistant()} and ${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
                     <form method="POST" th:action="@{/vinitro/users/employ/assistant/{id} (id = ${user.getId()})}">
-                        <input type="submit" class="employ" title="Нанять в качестве лаборанта">
+                        <button type="submit" class="employ-btn">
+                            <img src="/images/employ_icon.png" alt="assistant">
+                            Назначить лаборантом
+                        </button>
                     </form>
                 </div>
-                <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')} and ${!user.isAdmin()}" class="btn-pair">
-                    <a th:href="@{/vinitro/users/edit/{id} (id = ${user.getId()})}">
+                <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" class="btn-pair">
+                    <a th:href="@{/vinitro/users/edit/{id} (id = ${user.getId()})}" class="action-btn">
                         <img src="/images/settings_icon.png" alt="edit">
                     </a>
                     <form th:method="DELETE" th:action="@{/vinitro/users/delete/{id} (id = ${user.getId()})}">
-                        <input type="submit" class="delete-btn" value="">
+                        <button type="submit" class="action-btn delete-btn">
+                            <img src="/images/delete_button.png" alt="delete">
+                        </button>
                     </form>
                 </div>
-            </a>
-            <div th:unless="${!user.isAdmin()}" class="admin">
-                <img src="/images/admin_icon.png" alt="admin">
-                <p th:text="${user.getName()}"></p>
             </div>
         </div>
     </div>
-    <div th:text="'Всего зарегистрировано пользователей: ' + ${users_quantity}"></div>
-    <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" class="total-quantity">
-        <a href="/vinitro/users/create"><img src="/images/plus_icon.png" alt="plus"></a>
+
+    <div class="footer">
+        <div class="total-quantity" th:text="'Всего пользователей: ' + ${users_quantity}"></div>
+        <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
+            <a href="/vinitro/users/create" class="add-user-btn">
+                <img src="/images/plus_icon.png" alt="plus">
+                Добавить пользователя
+            </a>
+        </div>
     </div>
+</div>
 </body>
 </html>

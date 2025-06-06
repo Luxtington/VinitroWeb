@@ -4,6 +4,96 @@
     <meta charset="UTF-8">
     <title th:text="'Анализ ' + ${analysis.getName()}"></title>
     <link rel="icon" href="/images/vinitro_icon.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 2rem;
+            color: #1f2937;
+        }
+
+        .reader-details {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .detail-row {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-value {
+            color: #1f2937;
+            line-height: 1.5;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        button {
+            background-color: #3B82F6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #3B82F6;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .appointment-status {
+            color: #4b5563;
+            font-style: italic;
+            margin-top: 1rem;
+        }
+    </style>
 </head>
 <body>
     <div class="reader-details">
@@ -28,10 +118,10 @@
         </div>
         <div th:if="${not analysis_status.isField()} and not${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')} and not${#authorization.expression('hasAuthority(''ROLE_NURSE'')')} and not${#authorization.expression('hasAuthority(''ROLE_ASSISTANT'')')}">
             <a th:href="@{/vinitro/analyses/{id}/appoint (id = ${analysis.getId()})}">
-                <button style="color: #3B82F6">Записаться</button>
+                <button>Записаться</button>
             </a>
         </div>
-        <div th:unless="${not analysis_status.isField()}">Вы уже записаны на этот анализ</div>
+        <div th:unless="${not analysis_status.isField()}" class="appointment-status">Вы уже записаны на этот анализ</div>
     </div>
     <a href="/vinitro/analyses" class="back-link">← Вернуться к списку анализов</a>
 </body>
