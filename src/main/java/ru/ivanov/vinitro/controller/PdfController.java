@@ -35,7 +35,6 @@ public class PdfController {
         response.setHeader("Content-Disposition",
                 "attachment; filename=appointment_" + id + ".pdf");
 
-        // Генерируем PDF и пишем напрямую в OutputStream ответа
         try (PDDocument document = PDDocument.load(pdfService.generateAppointmentPdf(appointment))) {
             document.save(response.getOutputStream());
         }
